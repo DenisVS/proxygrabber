@@ -39,7 +39,7 @@ do {
         break;
     }
     echo "For test are " . $countIp . " new IP's\n";
-    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond);
+    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli);
     
     
     /*
@@ -74,7 +74,7 @@ do {
 } while ($countIp > ($testSize / 2));
 $mysqli->query("ALTER TABLE `ip_list_new` AUTO_INCREMENT = 1;");
 
-function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond) {
+function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli) {
     while ($row = $sample->fetch_assoc()) {
         $proxiesToCheck[]['proxy_ip'] = $row['proxy_ip']; //заносим результат в массив для проверки
     }
