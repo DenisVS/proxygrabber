@@ -50,33 +50,25 @@ $row['site_url'] = 'http://vk.com/club10975869';
 	var_dump(count($newProxies));
 	for($i=0; ($i < count($newProxies) && ($plusIp < $limitParseNew)); $i++)	{	//перебираем надёрганные IP	
 		$countIpAll = 0;	//Суммарно во всех таблицах пока нету такого IP
-
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_new WHERE proxy_ip ='".$newProxies[$i]."'"); 
 		//$countIp = $resultCount->fetch_assoc();
 		$countIp = $resultCount->num_rows; //How much rows with such IP?
-
 		//var_dump ($countIp);
 //echo "countIpAll countIp". $countIpAll ." - ". $countIp . "\n";
 		$countIpAll = ($countIpAll + $countIp);
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_ok WHERE proxy_ip ='".$newProxies[$i]."'"); 
 		$countIp = $resultCount->num_rows; //сколько строк с таким IP  в ip_list_ok?
-                var_dump ($countIp);
-                var_dump ($countIpAll);
+                //var_dump ($countIp);
+                //var_dump ($countIpAll);
 		$countIpAll = ($countIpAll + $countIp);
-
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_substandard WHERE proxy_ip ='".$newProxies[$i]."'");
 		$countIp = $resultCount->num_rows; //сколько строк с таким IP  в ip_list_substandard?
 		$countIpAll = ($countIpAll + $countIp);
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_time WHERE proxy_ip ='".$newProxies[$i]."'");
-
 		$countIp = $resultCount->num_rows; //сколько строк с таким IP  в ip_list_time?
-		
 		$countIpAll = ($countIpAll + $countIp);
-		
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_never WHERE proxy_ip ='".$newProxies[$i]."'");
-		
 		$countIp = $resultCount->num_rows; //сколько строк с таким IP  в ip_list_never? 
-		
 		$countIpAll = ($countIpAll + $countIp);
 		//echo count($newProxies)." - ".$i." Количество имеющихся с IP ".$newProxies[$i].": ".$countIpAll."\n";
 		if ($countIpAll == 0)	{	//если нету
