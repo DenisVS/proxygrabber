@@ -430,8 +430,12 @@ function fillEmptyCells($index) {
         $index['ya_market'] = 0;
     if (!isset($index['google_serp']))
         $index['google_serp'] = 0;
-    echo "!\n";
-    var_dump($index);
+    if (!isset($index['anm']))
+        $index['anm'] = 0;
+    if (!isset($index['query']))
+        $index['query'] = 0;
+    //echo "!\n";
+    //var_dump($index);
     return($index);
 }
 ?>
