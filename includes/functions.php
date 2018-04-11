@@ -425,14 +425,14 @@ function alignmentConditions($conditions, $data) {
 }
 // Filling empty cells by zero values
 function fillEmptyCells($index) {
-    echo "index\n";
-    var_dump($index);
-    echo "\n";
-    
+
     if (!isset($index['ya_market']))
         $index['ya_market'] = 0;
     if (!isset($index['google_serp']))
         $index['google_serp'] = 0;
+    echo "!\n";
+    var_dump($index);
+    return($index);
 }
 ?>
 
