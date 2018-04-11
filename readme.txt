@@ -1,0 +1,2 @@
+*/10    *     *       *       *       cd /usr/home/webuser1/www/_proxygrabber &&  /usr/local/bin/php  /usr/home/webuser1/www/_proxygrabber/parse.php  > /dev/null 2>&1
+*/7    *     *       *       *       cd /usr/home/webuser1/www/_proxygrabber &&  /usr/local/bin/php  /usr/home/webuser1/www/_proxygrabber/check.php  > /dev/null 2>&1
