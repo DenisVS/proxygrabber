@@ -239,6 +239,7 @@ function readAllLines($file) {
 //Сырой текст в IP:port
 function textToIpList($text) {
     $text = preg_replace('/(.*?)<span(.*?)>(.*)/i', '$1 $3', $text);
+    echo $text;
     $text = strip_tags_smart($text);
     $proxiesNew = explode("\n", $text); //текст в массив
     for ($i = 0; $i < count($proxiesNew); $i++) { //перебираем, фильтруем IP
@@ -246,7 +247,7 @@ function textToIpList($text) {
         //echo ("$proxiesNew[$i]\n");
                 
 
-echo $proxiesNew[$i];
+//
 
 
         if (preg_match('/\b((([-.a-z0-9]*)\.(\w{2,5}))|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])):(\d{2,5})\b/', $proxiesNew[$i])) {
