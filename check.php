@@ -51,7 +51,7 @@ do {
     //thorowg whole proxy list
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
-        var_dump($proxiesFromCheck);
+        var_dump($proxiesFromCheck[$i]);
         // check condition for OK list
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
             echo "insert OK".$proxiesFromCheck[$i]['proxy_ip'];
