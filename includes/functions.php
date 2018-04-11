@@ -238,13 +238,14 @@ function readAllLines($file) {
 
 //Сырой текст в IP:port
 function textToIpList($text) {
+    $text = preg_replace('/(.*?)<span(.*?)>(.*)/i', '$1 $3', $text);
     $text = strip_tags_smart($text);
     $proxiesNew = explode("\n", $text); //текст в массив
     for ($i = 0; $i < count($proxiesNew); $i++) { //перебираем, фильтруем IP
         $proxiesNew[$i] = trim($proxiesNew[$i]);
         //echo ("$proxiesNew[$i]\n");
                 
-$proxiesNew[$i] = preg_replace('/(.*?)<span(.*?)>(.*)/i', '$1 $3', $proxiesNew[$i]);
+
 echo $proxiesNew[$i];
 
 
