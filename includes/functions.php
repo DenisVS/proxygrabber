@@ -425,6 +425,7 @@ function alignmentConditions($conditions, $data) {
 }
 // Filling empty cells by zero values
 function fillEmptyCells($index) {
+    echo "index".$index."\n";
     if (!isset($index['ya_market']))
         $index['ya_market'] = 0;
     if (!isset($index['google_serp']))
