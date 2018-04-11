@@ -46,13 +46,13 @@ do {
     $proxiesFromCheck = curlMultyProxyTest($testUrl, $proxiesToCheck, $myIp, $yaMarketLink, $timeout, $uaList); //тестируем
     //echo 'Now we will list proxies from check:';
     //var_dump($proxiesFromCheck);
-    var_dump($proxiesFromCheck);
+    //var_dump($proxiesFromCheck);
     $cond = alignmentConditions($cond, $proxiesFromCheck);
     var_dump($proxiesFromCheck);
 
     //thorowg whole proxy list
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
-        //var_dump($proxiesFromCheck[$i]);
+        var_dump($proxiesFromCheck[$i]);
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
         
         // check condition for OK list
