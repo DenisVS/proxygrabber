@@ -10,11 +10,11 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);  //тормозит �
 
 $resultNewIp = $mysqli->query("SELECT * FROM ip_list_new;");
 $amountNewIp = $resultNewIp->num_rows; //сколько строк со свежатиной?
-var_dump($amountNewIp);
+//var_dump($amountNewIp);
 $resultAnmIp = $mysqli->query("SELECT * FROM ip_list_ok;"); 
 $amountAnmIp = $resultAnmIp->num_rows; // How many rows in anonimous table?
 
-var_dump($amountAnmIp);
+//var_dump($amountAnmIp);
 
 if (($amountNewIp < $minimumNew)  && ($amountAnmIp < $minimumOk))	{	//если мало, парсим
 	$resultNumSite = $mysqli->query("SELECT value FROM settings WHERE `param` = 'site_num';"); // Current site index number in table
@@ -35,7 +35,7 @@ if (($amountNewIp < $minimumNew)  && ($amountAnmIp < $minimumOk))	{	//если �
 	$mysqli->query("UPDATE settings SET value='".$row['id']."' WHERE `param` = 'site_num';"); 
 	echo  'Fetched site index number in table $rowNumSite["value"]:  '.$row['id']."\n";
 //$row['site_url'] = 'http://ab57.ru/downloads/proxyold.txt';
-$row['site_url'] = 'http://vk.com/club10975869';
+//$row['site_url'] = 'http://vk.com/club10975869';
 	$newProxies = array();	
 	//$text = curl ($row['site_url'],'','includes/cookies.txt','',0, 0, randUa($uaList));	//	Fetch URL
 	$text = curl ($row['site_url'],'','includes/cookies.txt','',0, 1, randUa($uaList));	//	Fetch URL
