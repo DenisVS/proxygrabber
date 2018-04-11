@@ -60,6 +60,8 @@ $row['site_url'] = 'http://vk.com/club10975869';
 		$countIpAll = ($countIpAll + $countIp);
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_ok WHERE proxy_ip ='".$newProxies[$i]."'"); 
 		$countIp = $resultCount->fetch_assoc(); //сколько строк с таким IP  в ip_list_ok?
+                var_dump ($countIp);
+                var_dump ($countIpAll);
 		$countIpAll = ($countIpAll + $countIp);
 
 		$resultCount = $mysqli->query("SELECT * FROM ip_list_substandard WHERE proxy_ip ='".$newProxies[$i]."'");
