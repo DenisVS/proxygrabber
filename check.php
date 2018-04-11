@@ -54,6 +54,8 @@ do {
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
         //var_dump($proxiesFromCheck[$i]);
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
+            echo "!\n";
+    //var_dump($index);
         var_dump($proxiesFromCheck[$i]);
         // check condition for OK list
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
