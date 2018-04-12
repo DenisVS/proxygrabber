@@ -27,7 +27,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 
 //$proxiesToCheck: [0]["proxy_ip"] => "110.77.206.77:42619"
-/////////////////////////////////////////////////
+///////////////////////////////////////////////// 
 //выбираем имеющиеся рабочие ok, с самых старых по дате проверки>0, покуда их > $testSize/20
 do {
     $proxiesToCheck = array();
@@ -38,7 +38,7 @@ do {
         echo "Nothing!\n";
         break;
     }
-    echo "For test are " . $countIp . " ok IP's\n";
+    echo "For test are " . $countIp . " ok IP's\n"; //OK 10 10 10 10 10 
     testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '10');
 } while ($countIp > ($testSize / 20));
 
@@ -54,7 +54,7 @@ do {
         echo "Nothing!\n";
         break;
     }
-    echo "For test are " . $countIp . " new IP's\n";
+    echo "For test are " . $countIp . " new IP's\n"; //NEW 20 20 20 20 20 20
     testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '20');
 } while ($countIp > ($testSize / 2));
 $mysqli->query("ALTER TABLE `ip_list_new` AUTO_INCREMENT = 1;");
