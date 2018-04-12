@@ -100,7 +100,7 @@ $countIteration = 0; //счётчик
 do {
     echo $countIteration . " итераций\n";
     $proxiesToCheck = array();
-    $resultLongChecked = mysql_query("SELECT proxy_ip FROM ip_list_time 
+    $resultLongChecked = $mysqli->query("SELECT proxy_ip FROM ip_list_time 
 	WHERE ((`checked` - `not_worked`)*'" . $distrustTime . "') < ('" . time() . "' - `checked`)
 	ORDER BY `checked` ASC limit " . $testSize);
     //var_dump($resultLongChecked);
