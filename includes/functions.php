@@ -496,10 +496,8 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                     $mysqli->query("INSERT INTO `ip_list_time` (`proxy_ip`, `checked`, `not_worked`, `never`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . (time() - $penaltyNewTime) . "', true)"); //insert into ip_list_bad
                     $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
                     break;
-
                 case 'ip_list_time':
                     $mysqli->query("UPDATE `ip_list_time` SET `checked` = '" . time() . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['ip'] . "';\r");
-
                     break;
             }
         }
