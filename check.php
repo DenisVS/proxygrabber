@@ -33,14 +33,16 @@ do {
     $proxiesToCheck = array();
     $resultLongChecked = $mysqli->query("SELECT `proxy_ip` FROM `ip_list_ok` WHERE ((`checked` - `worked`) < (('" . time() . "' - `checked`)*" . $kTime . ")) OR (('" . time() . "' - `checked`) > '" . $maxTimeNoCheckOk . "' ) ORDER BY `checked` ASC LIMIT " . $testSize);
     //var_dump($resultLongChecked);
-    $countIp = $resultLongChecked->num_rows; // How many rows with limited fresh?
+    $countIp = $resultLongChecked->num_rows; // How many rows with limited ok?
     if ($countIp == 0) {
         echo "Nothing!\n";
         break;
     }
     echo "For test are " . $countIp . " ok IP's\n";
-    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, 'ip_list_ok');
+    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '10');
 } while ($countIp > ($testSize / 20));
+
+////////////////
 
 //выбираем свежие, покуда их > $testSize/2
 do {
@@ -53,9 +55,45 @@ do {
         break;
     }
     echo "For test are " . $countIp . " new IP's\n";
-    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, 'ip_list_new');
+    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '20');
 } while ($countIp > ($testSize / 2));
 $mysqli->query("ALTER TABLE `ip_list_new` AUTO_INCREMENT = 1;");
+
+/////////////////
+
+//переносим переизбыток залежавшихся в never
+echo "Может, мусор выкинем?\n";
+$result = $mysqli->query("SELECT proxy_ip FROM `ip_list_time` WHERE `never` = true;");
+$count = $result->num_rows; //сколько строк?
+$filter = ($count-$limitNever);
+if ($filter < 0) $filter = 0; 	//Чтобы меньше нуля не было
+$resultNever = $mysqli->query("select * from `ip_list_time` WHERE `never` = true order by `not_worked` desc limit ".$filter.";");
+while ($row = $resultNever->fetch_assoc()) {
+	echo  $row['proxy_ip']." вставляем в never\n";
+		$mysqli->query("INSERT INTO `ip_list_never` (`proxy_ip`, `moved`) VALUES ('".$row['proxy_ip']."', '".time()."');");	//заносим в ip_list_never
+		$mysqli->query("DELETE FROM `ip_list_time` WHERE `proxy_ip` = '".$row['proxy_ip']."';");		
+}
+
+////////////////
+
+//удаляем переизбыток залежавшихся
+$result = $mysqli->query("SELECT proxy_ip FROM `ip_list_time` WHERE `never` = false;");
+$count = $result->num_rows; //сколько строк?
+$filter = ($count-$limitTime);
+if ($filter < 0) $filter = 0; 	//Чтобы меньше нуля не было
+$mysqli->query("delete from `ip_list_time` WHERE `never` = false order by `not_worked` desc limit ".$filter.";");
+
+//////////
+
+//удаляем переизбыток залежавшихся некондиционных. Вдруг мутировали?
+$result = $mysqli->query("SELECT proxy_ip FROM `ip_list_substandard`;");
+$count = $result->num_rows; //сколько строк?
+$filter = ($count-$limitSubstandard);
+if ($filter < 0) $filter = 0; 	//Чтобы меньше нуля не было
+$mysqli->query("delete from `ip_list_substandard` order by `checked` desc limit ".$filter.";");
+
+/////////
+
 
 //выбираем имеющиеся нерабочие, с самых старых по дате проверки>0, покуда их > $testSize/5
 $countIteration = 0; //счётчик
@@ -66,43 +104,20 @@ do {
 	WHERE ((`checked` - `not_worked`)*'" . $distrustTime . "') < ('" . time() . "' - `checked`)
 	ORDER BY `checked` ASC limit " . $testSize);
     //var_dump($resultLongChecked);
-    $countIp = $resultLongChecked->num_rows; // How many rows with limited fresh?
+    $countIp = $resultLongChecked->num_rows; // How many rows with limited time?
     if ($countIp == 0) {
         echo "Nothing!\n";
         break;
     }
     echo "For test are " . $countIp . " time IP's\n";
-    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, 'ip_list_time');
+    testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '30');
     $countIteration = $countIteration + 1; //счётчик
 } while ($countIp > ($testSize / 5) && ($limitCheckOld / $testSize) > $countIteration);
 
 
-/*
-  while ($row = $resultLongChecked->fetch_assoc()) {
-  $proxiesToCheck[]['proxy_ip'] = $row['proxy_ip']; //заносим результат в массив для проверки
-  }
-  //var_dump($proxiesToCheck);
-  $proxiesFromCheck = curlMultyProxyTest($testUrl, $proxiesToCheck, $myIp, $yaMarketLink, $timeout, $uaList); //тестируем
-  //echo 'Now we will list proxies from check:';
-  $cond = alignmentConditions($cond, $proxiesFromCheck);
-  //thorowg whole proxy list
-  for ($i = 0; $i < count($proxiesFromCheck); $i++) {
-  $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
-  if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
-  $mysqli->query("INSERT INTO `ip_list_ok` (`proxy_ip`, `checked`, `worked`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "')"); //заносим в ip_list_ok
-  $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-  }
-  // check condition for not OK list
-  if (($proxiesFromCheck[$i]['time'] == 0) && (($proxiesFromCheck[$i]['anm'] != $cond['anm']) || ($proxiesFromCheck[$i]['ya_market'] != $cond['ya_market']) || ($proxiesFromCheck[$i]['query'] != $cond['query']) || ($proxiesFromCheck[$i]['google_serp'] != $cond['google_serp']))) {
-  $mysqli->query("INSERT INTO `ip_list_substandard` (`proxy_ip`, `checked`, `worked`, `status`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "', '" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' )"); //заносим в ip_list_substandard
-  $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-  }
-  // check condition for dead list
-  if ($proxiesFromCheck[$i]['time'] == 1) { //проверяем условие недоступности
-  $mysqli->query("INSERT INTO `ip_list_time` (`proxy_ip`, `checked`, `not_worked`, `never`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . (time() - $penaltyNewTime) . "', true)"); //insert into ip_list_bad
-  $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-  }
-  }
 
- */
+
+
+
+
 ?>
