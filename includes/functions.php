@@ -448,17 +448,17 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                     //$mysqli->query("UPDATE `ip_list_ok` SET `checked` ='" . time() . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
                     echo '1 UPDATE `ip_list_ok ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                     $mysqli->query("UPDATE `ip_list_ok` SET `checked` ='" . time() . "', `status`='" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
                 case '20':
                 case '30':
                     echo '2 INSERT INTO `ip_list_ok ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                     $mysqli->query("INSERT INTO `ip_list_ok` (`proxy_ip`, `checked`, `worked`, `status`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "', '" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "')"); //заносим в ip_list_ok
                 case '20':
                     $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
                 case '30':
                     $mysqli->query("DELETE FROM `ip_list_time` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
             }
         }
         // check condition for not OK list
@@ -471,14 +471,14 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                     $mysqli->query("INSERT INTO `ip_list_substandard` (`proxy_ip`, `checked`, `worked`, `status`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "', '" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' )"); //заносим в ip_list_substandard
                 case '10':
                     $mysqli->query("DELETE FROM `ip_list_ok` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
                 case '20':
                     echo '4 DELETE FROM `ip_list_new` ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                     $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
                 case '30':
                     $mysqli->query("DELETE FROM `ip_list_time` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
             }
         }
         // check condition for dead list
@@ -488,16 +488,16 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                     echo '5 INSERT INTO `ip_list_time' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                     $mysqli->query("INSERT INTO `ip_list_time` (`proxy_ip`, `checked`, `not_worked`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "')"); //заносим в ip_list_bad
                     $mysqli->query("DELETE FROM `ip_list_ok` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
                 case '20':
                     echo '6 INSERT INTO `ip_list_time' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                     $mysqli->query("INSERT INTO `ip_list_time` (`proxy_ip`, `checked`, `not_worked`, `never`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . (time() - $penaltyNewTime) . "', true)"); //insert into ip_list_bad
                     $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
-                    break;
+                    //break;
                 case '30':
                     echo '7 UPDATE `ip_list_time`' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                     $mysqli->query("UPDATE `ip_list_time` SET `checked` = '" . time() . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';\r");
-                    break;
+                    //break;
             }
         }
     }
