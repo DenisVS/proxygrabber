@@ -1,4 +1,27 @@
 <?php
+$whatsCheck = 20;
+
+
+            switch ($whatsCheck) {
+                case '10':  //OK
+                case '20': //NEW
+                case '30':
+                    echo '3 INSERT INTO ip_list_substandard ' . 44 . "\n";
+//                    $mysqli->query("INSERT INTO `ip_list_substandard` (`proxy_ip`, `checked`, `worked`, `status`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "', '" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' )"); //заносим в ip_list_substandard
+                    //break;
+                case '10':
+  //                  $mysqli->query("DELETE FROM `ip_list_ok` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
+                    break;
+                case '20': //NEW
+                    echo '4 DELETE FROM ip_list_new ' .  55 . "\n";
+    //                $mysqli->query("DELETE FROM `ip_list_new` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
+                    break;
+                case '30':
+      //              $mysqli->query("DELETE FROM `ip_list_time` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
+                    break;
+            }
+
+/*
 
 include "includes/config.php";
 include "includes/functions.php";

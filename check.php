@@ -35,15 +35,16 @@ do {
     //var_dump($resultLongChecked);
     $countIp = $resultLongChecked->num_rows; // How many rows with limited ok?
     if ($countIp == 0) {
-        echo "Nothing!\n";
+        echo "Nothing ok!\n";
         break;
     }
-    echo "For test are " . $countIp . " ok IP's\n"; //OK 10 10 10 10 10 
+    echo "For test are " . $countIp . " ok IP's\n"; //OK 10 10 10 10 10
+    //var_dump($resultLongChecked);
     testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '10');
 } while ($countIp > ($testSize / 20));
 
 ////////////////
-
+/*
 //выбираем свежие, покуда их > $testSize/2
 do {
     $proxiesToCheck = array();
@@ -51,14 +52,14 @@ do {
     //var_dump($resultLongChecked);
     $countIp = $resultLongChecked->num_rows; // How many rows with limited fresh?
     if ($countIp == 0) {
-        echo "Nothing!\n";
+        echo "Nothing new!\n";
         break;
     }
     echo "For test are " . $countIp . " new IP's\n"; //NEW 20 20 20 20 20 20
     testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '20');
 } while ($countIp > ($testSize / 2));
 $mysqli->query("ALTER TABLE `ip_list_new` AUTO_INCREMENT = 1;");
-
+*/
 /////////////////
 
 //переносим переизбыток залежавшихся в never
@@ -106,7 +107,7 @@ do {
     //var_dump($resultLongChecked);
     $countIp = $resultLongChecked->num_rows; // How many rows with limited time?
     if ($countIp == 0) {
-        echo "Nothing!\n";
+        echo "Nothing time!\n";
         break;
     }
     echo "For test are " . $countIp . " time IP's\n";
