@@ -274,62 +274,8 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
     return($checkingProxy);
 }
 
-function alignmentConditions($conditions, $data) {
-    for ($i = 0; $i < count($data); $i++) {
-        if (!isset($data[$i]['anm']))
-            $data[$i]['anm'] = 0;
-        if (!isset($data[$i]['query']))
-            $data[$i]['query'] = 0;
-        if (!isset($data[$i]['ya_market']))
-            $data[$i]['ya_market'] = 0;
-        if (!isset($data[$i]['google_serp']))
-            $data[$i]['google_serp'] = 0;
-        /*
-          if ($conditions['anm'] == 2)
-          $conditions['anm'] = $data[$i]['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
-          if ($conditions['query'] == 2)
-          $conditions['query'] = $data[$i]['query']; //если условие = 2 (неважно), приравниваем ко входным данным
-          if ($conditions['ya_market'] == 2)
-          $conditions['ya_market'] = $data[$i]['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
-          if ($conditions['google_serp'] == 2)
-          $conditions['google_serp'] = $data[$i]['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-         */
-        if ($conditions['anm'] == 2)
-            $conditions['anm'] = $data[$i]['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
-        if ($conditions['query'] == 2)
-            $conditions['query'] = $data[$i]['query']; //если условие = 2 (неважно), приравниваем ко входным данным
-        if ($conditions['ya_market'] == 2)
-            $conditions['ya_market'] = $data[$i]['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
-        if ($conditions['google_serp'] == 2)
-            $conditions['google_serp'] = $data[$i]['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-    }
-    return($conditions);
-}
-
 // Filling empty cells by zero values
-function fillEmptyCells($index) {
-    if (!isset($index['ya_market']))
-        $index['ya_market'] = 0;
-    if (!isset($index['google_serp']))
-        $index['google_serp'] = 0;
-    if (!isset($index['anm']))
-        $index['anm'] = 0;
-    if (!isset($index['query']))
-        $index['query'] = 0;
-    if ($conditions['anm'] == 2)
-        $conditions['anm'] = $data[$i]['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
-    if ($conditions['query'] == 2)
-        $conditions['query'] = $data[$i]['query']; //если условие = 2 (неважно), приравниваем ко входным данным
-    if ($conditions['ya_market'] == 2)
-        $conditions['ya_market'] = $data[$i]['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
-    if ($conditions['google_serp'] == 2)
-        $conditions['google_serp'] = $data[$i]['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-    return($index);
-}
-
-// Filling empty cells by zero values
-function aaaaaaaa($data) {
-
+function fillEmptyCells($data) {
     if (!isset($data['ya_market']))
         $data['ya_market'] = '0';
     if (!isset($data['google_serp']))
@@ -338,12 +284,11 @@ function aaaaaaaa($data) {
         $data['anm'] = '0';
     if (!isset($data['query']))
         $data['query'] = '0';
-
     return($data);
 }
 
 // Filling empty cells by zero values
-function bbbbbbb($data, $conditions) {
+function alignmentConditions($data, $conditions) {
     if ($conditions['anm'] == 2)
         $conditions['anm'] = $data['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['query'] == 2)
@@ -355,35 +300,19 @@ function bbbbbbb($data, $conditions) {
     return($data);
 }
 
-
-
-
-
 function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $conditions, $mysqli, $penaltyNewTime, $whatsCheck) {
     while ($row = $sample->fetch_assoc()) {
         $proxiesToCheck[]['proxy_ip'] = $row['proxy_ip']; //заносим результат в массив для проверки
-        echo $row['proxy_ip'] . "\n";
+        //echo $row['proxy_ip'] . "\n";
     }
-    //var_dump($proxiesToCheck);
     $proxiesFromCheck = curlMultyProxyTest($testUrl, $proxiesToCheck, $myIp, $yaMarketLink, $timeout, $uaList); //тестируем
     //echo 'Now we will list proxies from check:';
 
-    //var_dump($cond);
-
-    //$cond = alignmentConditions($cond, $proxiesFromCheck);
     //thorowg whole proxy list
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
-        $proxiesFromCheck[$i] = aaaaaaaa($proxiesFromCheck[$i]);
-        $cond = bbbbbbb($proxiesFromCheck[$i], $conditions);
-        var_dump($cond);
-        //$proxiesFromCheck[$i] = aaaaaaaa($proxiesFromCheck[$i], $cond);
-        //ybrjdecho "Iteration $i\n";
-//$proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
+        $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
+        $cond = alignmentConditions($proxiesFromCheck[$i], $conditions);
         echo "CASE: " . $whatsCheck . "\n";
-
-
-        //var_dump($proxiesFromCheck[$i]);
-        //var_dump($cond);
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
 
             if ($whatsCheck == 10) {
