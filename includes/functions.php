@@ -127,7 +127,11 @@ function textToIpList($text) {
         
         $kkk = explode("\n",$result );
         var_dump($kkk);
-        
+        foreach ($kkk as $key => $value) {
+            if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
+                echo $value;
+            }
+        }
         
     }
     
