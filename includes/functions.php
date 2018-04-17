@@ -46,127 +46,6 @@ function curl($link, $postfields = '', $cookie = '', $refer = '', $header = 1, $
     }
 }
 
-function SSScurlMultyProxyTest($link, $proxiesToCheck = false, $myIp = '', $directLink, $timeout = 20, $uaList) {
-    for ($proxyCount = 0; $proxyCount < count($proxiesToCheck); $proxyCount++) { //
-        $ch[$proxyCount] = curl_init($link . "?test_query");
-        curl_setopt($ch[$proxyCount], CURLOPT_PROXY, $proxiesToCheck[$proxyCount]);
-        curl_setopt($ch[$proxyCount], CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch[$proxyCount], CURLOPT_TIMEOUT, $timeout);
-        curl_setopt($ch[$proxyCount], CURLOPT_POST, 0);
-        //curl_setopt($ch[$proxyCount], CURLOPT_USERAGENT, randUa($uaList));
-    }
-    $mh = curl_multi_init();
-    for ($proxyCount = 0; $proxyCount < count($proxiesToCheck); $proxyCount++) { //
-        curl_multi_add_handle($mh, $ch[$proxyCount]);
-    }
-    $running = null;
-    do { //execute the handles
-        curl_multi_exec($mh, $running);
-    } while ($running > 0);
-
-    for ($proxyCount = 0; $proxyCount < count($proxiesToCheck); $proxyCount++) { //
-        // GET RESULTS AND SEPARATE BY STRINGS 
-        $testResult = curl_multi_getcontent($ch[$proxyCount]); //получаем результат запроса
-        echo $testResult . "  !!\n"; //
-        $testResult = explode("\n", $testResult); //По строкам бьём текцщий забор
-        // PARSE EACH STRING OF CURRENT RESULT
-        $tempResultString = null; //обнуляем индикатор вхождения HTTP_X_FORWARDED_FOR
-        $tempResultString2 = null; //обнуляем индикатор вхождения [QUERY_STRING\]
-        for ($numLineResult = 0; $numLineResult < count($testResult); $numLineResult++) { //по строкам текущего забора
-            //echo $testResult[$numLineResult]."\n";
-            if (preg_match('/\[HTTP_X_FORWARDED_FOR\]/', $testResult[$numLineResult])) {
-                $tempResultString = $testResult[$numLineResult]; //в индикатор содержимое строки со вхождением, для обработки
-            }
-            if (preg_match('/\[QUERY_STRING\]/', $testResult[$numLineResult])) {
-                $tempResultString2 = $testResult[$numLineResult]; //в индикатор содержимое строки со вхождением, для обработки
-            }
-        }
-
-
-        // CHECK IF PARSE STRING IS PRESENT
-        if ($tempResultString == null) { //если не встретилось вхождение (дохлый прокси)
-            $proxiesFromCheck [$proxyCount]['proxy_ip'] = $proxiesToCheck[$proxyCount];
-            $proxiesFromCheck [$proxyCount]['time'] = '1';
-            echo "Timeout\n";
-        }
-        else {
-            $proxiesFromCheck [$proxyCount]['time'] = '0'; //жив
-            if (strpos($tempResultString, $myIp) > 1) { //Проверка на анонимность если в строке мой IP 
-                $proxiesFromCheck [$proxyCount]['proxy_ip'] = $proxiesToCheck[$proxyCount];
-                $proxiesFromCheck [$proxyCount]['anm'] = '0';
-                echo "Неанонимный! ";
-            }
-            else {
-                echo "Анонимный! ";
-                $proxiesFromCheck [$proxyCount]['proxy_ip'] = $proxiesToCheck[$proxyCount];
-                $proxiesFromCheck [$proxyCount]['anm'] = '1';
-            }
-
-
-            if (strpos($tempResultString2, 'test_query') > 1) { //Проверка на QUERY если в строке  
-                $proxiesFromCheck [$proxyCount]['proxy_ip'] = $proxiesToCheck[$proxyCount];
-                $proxiesFromCheck [$proxyCount]['query'] = '1';
-                echo "query проходит\n";
-            }
-            else {
-                echo "query не проходит\n";
-                $proxiesFromCheck [$proxyCount]['proxy_ip'] = $proxiesToCheck[$proxyCount];
-                $proxiesFromCheck [$proxyCount]['query'] = '0';
-            }
-        }
-        curl_multi_remove_handle($mh, $ch[$proxyCount]);
-    }
-    curl_multi_close($mh);
-
-
-    $proxiesToDirect = $proxiesFromCheck;
-    $proxiesFromCheck = null;
-
-    ////////////////////////
-
-
-
-    for ($proxyCount = 0; $proxyCount < count($proxiesToDirect); $proxyCount++) { //
-        if ($proxiesToDirect [$proxyCount]['time'] != '1') {
-            $ch[$proxyCount] = curl_init($directLink);
-            curl_setopt($ch[$proxyCount], CURLOPT_PROXY, $proxiesToDirect[$proxyCount]['proxy_ip']);
-            curl_setopt($ch[$proxyCount], CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch[$proxyCount], CURLOPT_TIMEOUT, $timeout);
-            curl_setopt($ch[$proxyCount], CURLOPT_POST, 0);
-            curl_setopt($ch[$proxyCount], CURLOPT_USERAGENT, randUa($uaList));
-        }
-    }
-    $mh = curl_multi_init();
-    for ($proxyCount = 0; $proxyCount < count($proxiesToDirect); $proxyCount++) { //
-        curl_multi_add_handle($mh, $ch[$proxyCount]);
-    }
-    $running = null;
-    do { //execute the handles
-        curl_multi_exec($mh, $running);
-    } while ($running > 0);
-
-    for ($proxyCount = 0; $proxyCount < count($proxiesToDirect); $proxyCount++) { //
-        $testResult = curl_multi_getcontent($ch[$proxyCount]); //получаем результат запроса
-        $testResult = explode("\n", $testResult); //По строкам бьём текцщий забор
-        $tempResultString = null; //обнуляем индикатор вхождения categories_type
-        for ($numLineResult = 0; $numLineResult < count($testResult); $numLineResult++) { //по строкам текущего забора
-            //echo $testResult[$numLineResult]."\n";
-            if (preg_match('/categories_type/', $testResult[$numLineResult])) {
-                $tempResultString = $testResult[$numLineResult]; //в индикатор содержимое строки со вхождением, для обработки
-            }
-        }
-        if ($tempResultString != null && $proxiesToDirect[$proxyCount][anm] == 1) { //если встретилось вхождение
-            $proxiesToDirect[$proxyCount]['ya_market'] = '1';
-        }
-        curl_multi_remove_handle($mh, $ch[$proxyCount]);
-        echo " DIRECT " . $proxiesToDirect[$proxyCount]['ya_market'] . ", ANM " . $proxiesToDirect[$proxyCount]['anm'] . "\n";
-    }
-    //////////////////////
-
-
-    return $proxiesToDirect;
-}
-
 //Случайная строка из файла
 function randUa($file) {
     $uaFile = fopen($file, "r");  //открываем файл на чтение
@@ -289,7 +168,6 @@ class Thread {
  * If the field "cell" of 3D array consists entry, it will as 1, else 0.
  *
  * */
-
 function fieldToBoolean3D($in, $cell) {
     foreach ($in as $key => $currentProxyVal) {
         if (isset($in[$key][$cell])) {
@@ -307,7 +185,6 @@ function fieldToBoolean3D($in, $cell) {
  * The field "cell" from 3D $from insert into 3D $to, accordingly 2D $template.
  *  $template: 4 => 1, 5 => 2, 8 => 3
  * */
-
 function cellFromAnother3DArray($from, $to, $cell, $template) {
     foreach ($to as $key => $val) {
         if (isset($template[$key])) {
@@ -342,16 +219,16 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
             }
             if (isset($currentProxyVal['test_query']) && strpos($currentProxyVal['test_query'], 'test_query') > 1) { //Проверка на QUERY если в строке  
                 $checkingProxy[$currentProxyKey]['query'] = '1';
-                echo "query проходит\n";
+                echo $checkingProxy[$currentProxyKey]['proxy_ip']. " query проходит\n";
             }
             else {
-                echo "query не проходит\n";
+                echo $checkingProxy[$currentProxyKey]['proxy_ip']. " query не проходит\n";
                 $checkingProxy[$currentProxyKey]['query'] = '0';
             }
         }
         else {
             $checkingProxy[$currentProxyKey]['time'] = '1';
-            echo "Timeout\n";
+            echo $checkingProxy[$currentProxyKey]['proxy_ip']. " Timeout\n";
         }
         unset($checkingProxy[$currentProxyKey]['content']);
         unset($checkingProxy[$currentProxyKey]['test_query']);
@@ -372,8 +249,6 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
     }
 
     if (isset($controlKey) && isset($proxiesToCheckElit)) {
-
-
         $controlKey = array_flip($controlKey); //Flip array. Now it looks like 4 => 1, 5 => 2, 8 => 3  This is template to insert new fields
 //var_dump($proxiesToCheckElit);
 //----------------- Checking ya_market
@@ -386,14 +261,11 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
 
         $checkingProxy = cellFromAnother3DArray($resultFrom_multiCurl, $checkingProxy, 'ya_market', $controlKey);   // Now we reinstate sequences of keys and implement the new "ya_market" data to the array wich consists ip.
 // The current fields are "ya_market,proxy_ip,anm,query,time"
-//var_dump($checkingProxy);
-//
+// 
 //----------------- Checking google_serp
         $resultFrom_multiCurl = $person->multyProxyBulkConnect('https://google.com', $proxiesToCheckElit, $timeout, 'Mozilla Firefox 52.1 / Windows NT6.3', 1);
-//var_dump($resultFrom_multiCurl);
 // Determin if the google_serp is available
         $resultFrom_multiCurl = $person->parseRequestLineByLine($resultFrom_multiCurl, 'rel="shortcut icon"><title>Google</title><script nonce=', 'content', 'google_serp', 'ya_market,proxy_ip,anm,query,time', true);
-
         $resultFrom_multiCurl = fieldToBoolean3D($resultFrom_multiCurl, 'google_serp');   // Now if the field "google_serp" consists entry, it will as 1, else 0.
 //var_dump($resultFrom_multiCurl);
         $checkingProxy = cellFromAnother3DArray($resultFrom_multiCurl, $checkingProxy, 'google_serp', $controlKey); // Now we reinstate sequences of keys and implement the new "google_serp" data to the array wich consists ip.
@@ -421,7 +293,6 @@ function alignmentConditions($conditions, $data) {
           $conditions['ya_market'] = $data[$i]['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
           if ($conditions['google_serp'] == 2)
           $conditions['google_serp'] = $data[$i]['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-
          */
         if ($conditions['anm'] == 2)
             $conditions['anm'] = $data[$i]['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
@@ -432,15 +303,11 @@ function alignmentConditions($conditions, $data) {
         if ($conditions['google_serp'] == 2)
             $conditions['google_serp'] = $data[$i]['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
     }
-    //$result[$data] = $data;
-    //$result[$conditions] = $conditions;
-    //var_dump($conditions);
     return($conditions);
 }
 
 // Filling empty cells by zero values
 function fillEmptyCells($index) {
-
     if (!isset($index['ya_market']))
         $index['ya_market'] = 0;
     if (!isset($index['google_serp']))
@@ -449,8 +316,6 @@ function fillEmptyCells($index) {
         $index['anm'] = 0;
     if (!isset($index['query']))
         $index['query'] = 0;
-
-
     if ($conditions['anm'] == 2)
         $conditions['anm'] = $data[$i]['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['query'] == 2)
@@ -459,18 +324,8 @@ function fillEmptyCells($index) {
         $conditions['ya_market'] = $data[$i]['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data[$i]['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-
-
-
-
-        
-//echo "!\n";
-    //var_dump($index);
     return($index);
 }
-
-
-
 
 // Filling empty cells by zero values
 function aaaaaaaa($data) {
@@ -487,12 +342,8 @@ function aaaaaaaa($data) {
     return($data);
 }
 
-
-
-
 // Filling empty cells by zero values
 function bbbbbbb($data, $conditions) {
-
     if ($conditions['anm'] == 2)
         $conditions['anm'] = $data['anm']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['query'] == 2)
@@ -501,9 +352,6 @@ function bbbbbbb($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-        
-
-    //var_dump($index);
     return($data);
 }
 
