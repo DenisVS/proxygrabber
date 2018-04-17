@@ -7,8 +7,6 @@
  * */
 
 
-
-
 include "includes/config.php";
 include "includes/functions.php";
 spl_autoload_register(function ($class) {
