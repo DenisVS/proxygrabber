@@ -151,9 +151,15 @@ function textToIpList($text) {
                 $affggg = cube($value);
                 var_dump($affggg);
                 //echo "\n";
-                $fooooo = $affggg["1"];
+                //$fooooo = $affggg["1"];
                 echo $affggg["0"]."  -  ". $affggg["1"]."\n";
-                echo $uiiiii[$fooooo]."\n";
+                
+                foreach ($uiiiii as $kE => $vA) {
+                    if ($kE == $affggg["1"])
+                        echo $vA;
+                }
+                
+                //echo $uiiiii[$fooooo]."\n";
                 // = "r05c4";
                 //echo $uiiiii[$fooooo]."\n";
                 
