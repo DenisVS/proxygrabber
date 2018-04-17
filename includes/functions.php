@@ -124,12 +124,13 @@ function textToIpList($text) {
     if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
         $result = preg_replace($re, '$2$4', $text);
         //echo "The result of the substitution is ".$result;
-        
+        var_dump($matches);
         $kkk = explode("\n",$result );
         //var_dump($kkk);
+        
         foreach ($kkk as $key => $value) {
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
-                echo $value;
+                //echo $value;
             }
         }
         
