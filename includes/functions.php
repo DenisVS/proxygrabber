@@ -137,7 +137,7 @@ function textToIpList($text) {
         $jsTemplate = array_map("cube", $jsTemplate);
         // to Associative array
         foreach ($jsTemplate as $key => $value) {
-            $uiiiii[$value["0"]] = $value["1"];
+            $uiiiii[trim($value["0"])] = $value["1"];
         }
         
         
@@ -151,9 +151,9 @@ function textToIpList($text) {
                 $affggg = cube($value);
                 var_dump($affggg);
                 //echo "\n";
-                $fooooo = trim($affggg["1"]);
+                $fooooo = $affggg["1"];
                 echo $affggg["0"]."  -  ". $affggg["1"]."\n";
-                echo $uiiiii["$fooooo"]."\n";
+                echo $uiiiii[$fooooo]."\n";
                 // = "r05c4";
                 //echo $uiiiii[$fooooo]."\n";
                 
