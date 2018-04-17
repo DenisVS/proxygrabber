@@ -153,7 +153,7 @@ function textToIpList($text) {
                 //echo "\n";
                 $fooooo = $affggg["1"];
                 echo $affggg["0"]."  -  ". $affggg["1"]."\n";
-                echo $uiiiii[$fooooo]."\n";
+                echo $uiiiii["$fooooo"]."\n";
                 // = "r05c4";
                 //echo $uiiiii[$fooooo]."\n";
                 
