@@ -126,11 +126,14 @@ function textToIpList($text) {
         //var_dump($matches);
         $kkk = explode("\n", $result);
         //var_dump($kkk);
-
+        $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
+        var_dump( $jsTemplate);
+        
+        
         foreach ($kkk as $key => $value) {
-
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
+                
                 echo $value;
             }
         }
