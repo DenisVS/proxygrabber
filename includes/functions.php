@@ -312,12 +312,13 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
         $cond = alignmentConditions($proxiesFromCheck[$i], $conditions);
+        var_dump($cond);
         echo "CASE: " . $whatsCheck . "\n";
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
 
             if ($whatsCheck == 10) {
                 echo '1 UPDATE ip_list_ok ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
-                $mysqli->query("UPDATE `ip_list_ok` SET `checked` ='" . time() . "', `status`='" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
+                $mysqli->query("UPDATE `ip_list_ok` SET `checked` ='" . time() . "', `worked` ='" . time() . "', `status`='" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
             }
 
             if ($whatsCheck == 20 OR $whatsCheck == 30) {
