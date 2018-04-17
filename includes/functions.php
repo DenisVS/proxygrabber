@@ -131,8 +131,8 @@ function textToIpList($text) {
         sort($jsTemplate);
 
         function cube($n) {
-            $KJIOHIL = explode("|", $n)
-            return($n);
+            $KJIOHIL = explode("|", $n);
+            return($KJIOHIL);
         }
         $jsTemplate = array_map("cube", $jsTemplate);
 
