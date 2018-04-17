@@ -129,6 +129,14 @@ function textToIpList($text) {
         $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
         $jsTemplate = array_filter($jsTemplate);
         sort($jsTemplate);
+
+        function cube($n) {
+            $KJIOHIL = explode("|", $n)
+            return($n);
+        }
+        $jsTemplate = array_map("cube", $jsTemplate);
+
+
         var_dump($jsTemplate);
         foreach ($kkk as $key => $value) {
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
@@ -316,6 +324,7 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
+
 
         
 //return($data);
