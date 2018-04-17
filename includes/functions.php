@@ -127,13 +127,13 @@ function textToIpList($text) {
         $kkk = explode("\n", $result);
         //var_dump($kkk);
         $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
-        var_dump( $jsTemplate);
-        
-        
+        $jsTemplate = array_filter($jsTemplate);
+        sort($jsTemplate);
+        var_dump($jsTemplate);
         foreach ($kkk as $key => $value) {
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
-                
+
                 echo $value;
             }
         }
@@ -316,6 +316,7 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
+
         
 //return($data);
     return($conditions);
