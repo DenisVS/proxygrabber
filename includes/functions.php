@@ -121,6 +121,7 @@ function textToIpList($text) {
 
     $re = '/(.*?)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:)(<span class=\")((\D|\d){5})\"(.*)/';
     if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
+        $text = "";
         $result = preg_replace($re, '$2$4', $text);
         //echo "The result of the substitution is ".$result;
         //var_dump($matches);
@@ -134,38 +135,21 @@ function textToIpList($text) {
             $KJIOHIL = explode(":", $n);
             return($KJIOHIL);
         }
+
         $jsTemplate = array_map("cube", $jsTemplate);
         // to Associative array
         foreach ($jsTemplate as $key => $value) {
             $uiiiii[trim($value["0"])] = $value["1"];
         }
-        
-        
         unset($jsTemplate);
-        //var_dump($uiiiii);
-        print_r($uiiiii);
-        
         foreach ($kkk as $key => $value) {
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
                 $affggg = cube($value);
-                var_dump($affggg);
-                //echo "\n";
-                //$fooooo = $affggg["1"];
-                //echo $affggg["0"]."  -  ". $affggg["1"]."\n";
-                echo $affggg["0"]."  -  ". $uiiiii[$affggg["1"]]."\n";
-                
-                foreach ($uiiiii as $kE => $vA) {
-                    //if ($kE == $affggg["1"]) echo $vA;
-                    echo $kE." - ".$affggg["1"]."\n";
+                echo $affggg["0"] . "  -  " . $uiiiii[$affggg["1"]] . "\n";
+                foreach ($affggg as $kE => $vA) {
+                    $text = $text . "   " . $affggg["0"] . ":" . $uiiiii[$affggg["1"]];
                 }
-                
-                //echo $uiiiii[$fooooo]."\n";
-                // = "r05c4";
-                //echo $uiiiii[$fooooo]."\n";
-                
-                //echo "\n";
-                //echo $affggg["0"].":".$uiiiii[$affggg["1"]];
             }
         }
     }
@@ -347,6 +331,7 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
+
 
 
         
