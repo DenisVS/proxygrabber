@@ -142,7 +142,7 @@ function textToIpList($text) {
         
         
         unset($jsTemplate);
-        //var_dump($uiiiii);
+        var_dump($uiiiii);
         
         
         foreach ($kkk as $key => $value) {
@@ -150,6 +150,7 @@ function textToIpList($text) {
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
                 $affggg = cube($value);
                 var_dump($affggg);
+                echo "\n";
                 echo $affggg["0"]."  -  ". $affggg["1"];
                 //echo $affggg["0"].":".$uiiiii[$affggg["1"]];
             }
