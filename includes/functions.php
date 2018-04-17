@@ -123,7 +123,12 @@ function textToIpList($text) {
     $re = '/(.*?)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:)(<span class=\")((\D|\d){5})\"(.*)/';
     if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
         $result = preg_replace($re, '$2$4', $text);
-        echo "The result of the substitution is ".$result;
+        //echo "The result of the substitution is ".$result;
+        
+        $kkk = explode("\n",$result );
+        var_dump($kkk);
+        
+        
     }
     
     $text = strip_tags_smart($text);
