@@ -40,8 +40,7 @@ function curl($link, $postfields = '', $cookie = '', $refer = '', $header = 1, $
 
     if (empty($page)) {
         echo "<br/>Could not connect to host: <br/> $link <br/>";
-    }
-    else {
+    } else {
         return $page;
     }
 }
@@ -118,24 +117,25 @@ function readAllLines($file) {
 //Сырой текст в IP:port
 function textToIpList($text) {
     //echo $text;
-    
-    
+
+
     $re = '/(.*?)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:)(<span class=\")((\D|\d){5})\"(.*)/';
     if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
         $result = preg_replace($re, '$2$4', $text);
         //echo "The result of the substitution is ".$result;
-        var_dump($matches);
-        $kkk = explode("\n",$result );
+        //var_dump($matches);
+        $kkk = explode("\n", $result);
         //var_dump($kkk);
-        
+
         foreach ($kkk as $key => $value) {
+
+            $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
-                //echo $value;
+                echo $value;
             }
         }
-        
     }
-    
+
     $text = strip_tags_smart($text);
     $proxiesNew = explode("\n", $text); //текст в массив
     for ($i = 0; $i < count($proxiesNew); $i++) { //перебираем, фильтруем IP
@@ -143,8 +143,7 @@ function textToIpList($text) {
 
         if (preg_match('/\b((([-.a-z0-9]*)\.(\w{2,5}))|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])):(\d{2,5})\b/', $proxiesNew[$i])) {
             $proxiesNew[$i] = preg_replace('/(.*?)(\b((([-.a-z0-9]*)\.(\w{2,5}))|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])):(\d{2,5})\b)(.*)/', '$2', $proxiesNew[$i]);
-        }
-        else {
+        } else {
             $proxiesNew[$i] = false; //убиваем мусорные строки-элементы массива
         }
     }
@@ -187,12 +186,12 @@ class Thread {
  * If the field "cell" of 3D array consists entry, it will as 1, else 0.
  *
  * */
+
 function fieldToBoolean3D($in, $cell) {
     foreach ($in as $key => $currentProxyVal) {
         if (isset($in[$key][$cell])) {
             $in[$key][$cell] = 1;
-        }
-        else {
+        } else {
             $in[$key][$cell] = 0;
         }
     }
@@ -204,6 +203,7 @@ function fieldToBoolean3D($in, $cell) {
  * The field "cell" from 3D $from insert into 3D $to, accordingly 2D $template.
  *  $template: 4 => 1, 5 => 2, 8 => 3
  * */
+
 function cellFromAnother3DArray($from, $to, $cell, $template) {
     foreach ($to as $key => $val) {
         if (isset($template[$key])) {
@@ -232,22 +232,19 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
             $checkingProxy[$currentProxyKey]['time'] = '0';  //Alive  
             if (isset($currentProxyVal['x_forwarded_for']) && strpos($currentProxyVal['x_forwarded_for'], $myIp) > 1) { //Проверка на анонимность если в строке мой IP 
                 $checkingProxy[$currentProxyKey]['anm'] = '0';  // "Неанонимный!
-            }
-            else {
+            } else {
                 $checkingProxy[$currentProxyKey]['anm'] = '1';  // "Анонимный!	
             }
             if (isset($currentProxyVal['test_query']) && strpos($currentProxyVal['test_query'], 'test_query') > 1) { //Проверка на QUERY если в строке  
                 $checkingProxy[$currentProxyKey]['query'] = '1';
-                echo $checkingProxy[$currentProxyKey]['proxy_ip']. " query проходит\n";
-            }
-            else {
-                echo $checkingProxy[$currentProxyKey]['proxy_ip']. " query не проходит\n";
+                echo $checkingProxy[$currentProxyKey]['proxy_ip'] . " query проходит\n";
+            } else {
+                echo $checkingProxy[$currentProxyKey]['proxy_ip'] . " query не проходит\n";
                 $checkingProxy[$currentProxyKey]['query'] = '0';
             }
-        }
-        else {
+        } else {
             $checkingProxy[$currentProxyKey]['time'] = '1';
-            echo $checkingProxy[$currentProxyKey]['proxy_ip']. " Timeout\n";
+            echo $checkingProxy[$currentProxyKey]['proxy_ip'] . " Timeout\n";
         }
         unset($checkingProxy[$currentProxyKey]['content']);
         unset($checkingProxy[$currentProxyKey]['test_query']);
@@ -316,7 +313,8 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-    //return($data);
+        
+//return($data);
     return($conditions);
 }
 
