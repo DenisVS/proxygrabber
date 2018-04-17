@@ -313,6 +313,8 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
         $cond = alignmentConditions($proxiesFromCheck[$i], $conditions);
         var_dump($cond);
+        var_dump($conditions);
+        var_dump($proxiesFromCheck[$i]);
         echo "CASE: " . $whatsCheck . "\n";
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
 
