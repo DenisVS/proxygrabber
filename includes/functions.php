@@ -149,7 +149,7 @@ function textToIpList($text) {
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
                 $affggg = cube($value);
-                var_dump($affggg);
+                //var_dump($affggg);
                 //echo $value;
             }
         }
