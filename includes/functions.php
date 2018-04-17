@@ -150,8 +150,9 @@ function textToIpList($text) {
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
                 $affggg = cube($value);
                 var_dump($affggg);
-                echo "\n";
-                echo $affggg["0"]."  -  ". $affggg["1"];
+                //echo "\n";
+                echo $affggg["0"]."  -  ". $affggg["1"]."\n";
+                //echo "\n";
                 //echo $affggg["0"].":".$uiiiii[$affggg["1"]];
             }
         }
