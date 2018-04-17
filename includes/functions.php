@@ -142,8 +142,8 @@ function textToIpList($text) {
         
         
         unset($jsTemplate);
-        var_dump($uiiiii);
-        
+        //var_dump($uiiiii);
+        print_r($uiiiii);
         
         foreach ($kkk as $key => $value) {
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
