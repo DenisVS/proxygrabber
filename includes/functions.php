@@ -117,6 +117,7 @@ function readAllLines($file) {
 
 //Сырой текст в IP:port
 function textToIpList($text) {
+    echo $text;
     $text = strip_tags_smart($text);
     $proxiesNew = explode("\n", $text); //текст в массив
     for ($i = 0; $i < count($proxiesNew); $i++) { //перебираем, фильтруем IP
