@@ -297,17 +297,15 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-    return($data);
+    //return($data);
+    return($conditions);
 }
 
 function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $conditions, $mysqli, $penaltyNewTime, $whatsCheck) {
     while ($row = $sample->fetch_assoc()) {
         $proxiesToCheck[]['proxy_ip'] = $row['proxy_ip']; //заносим результат в массив для проверки
-        //echo $row['proxy_ip'] . "\n";
     }
     $proxiesFromCheck = curlMultyProxyTest($testUrl, $proxiesToCheck, $myIp, $yaMarketLink, $timeout, $uaList); //тестируем
-    //echo 'Now we will list proxies from check:';
-
     //thorowg whole proxy list
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
