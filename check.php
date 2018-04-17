@@ -42,7 +42,7 @@ do {
 } while ($countIp > ($testSize / 20));
 
 ////////////////
-/*
+//*
 //выбираем свежие, покуда их > $testSize/2
 do {
     $proxiesToCheck = array();
@@ -57,7 +57,7 @@ do {
     testAndDBWrite($resultLongChecked, $testUrl, $myIp, $yaMarketLink, $timeout, $uaList, $cond, $mysqli, $penaltyNewTime, '20');
 } while ($countIp > ($testSize / 2));
 $mysqli->query("ALTER TABLE `ip_list_new` AUTO_INCREMENT = 1;");
-*/
+//*/
 /////////////////
 
 //переносим переизбыток залежавшихся в never
