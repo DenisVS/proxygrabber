@@ -135,9 +135,16 @@ function textToIpList($text) {
             return($KJIOHIL);
         }
         $jsTemplate = array_map("cube", $jsTemplate);
-
-
-        var_dump($jsTemplate);
+        // to Associative array
+        foreach ($jsTemplate as $key => $value) {
+            $uiiiii[$value["0"]] = $value["1"];
+        }
+        
+        
+        unset($jsTemplate);
+        var_dump($uiiiii);
+        
+        
         foreach ($kkk as $key => $value) {
             $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
             if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
