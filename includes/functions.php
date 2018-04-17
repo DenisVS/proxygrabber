@@ -117,7 +117,15 @@ function readAllLines($file) {
 
 //Сырой текст в IP:port
 function textToIpList($text) {
-    echo $text;
+    //echo $text;
+    
+    
+    $re = '/(.*?)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:)(<span class=\")((\D|\d){5})\"(.*)/';
+    if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
+        $result = preg_replace($re, $subst, $str);
+        echo "The result of the substitution is ".$result;
+    }
+    
     $text = strip_tags_smart($text);
     $proxiesNew = explode("\n", $text); //текст в массив
     for ($i = 0; $i < count($proxiesNew); $i++) { //перебираем, фильтруем IP
