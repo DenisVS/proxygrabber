@@ -155,8 +155,8 @@ function textToIpList($text) {
                 echo $affggg["0"]."  -  ". $affggg["1"]."\n";
                 
                 foreach ($uiiiii as $kE => $vA) {
-                    if ($kE == $affggg["1"])
-                        echo $vA;
+                    //if ($kE == $affggg["1"]) echo $vA;
+                    echo $kE." - ".$vA;
                 }
                 
                 //echo $uiiiii[$fooooo]."\n";
