@@ -152,6 +152,7 @@ function textToIpList($text) {
                 var_dump($affggg);
                 //echo "\n";
                 echo $affggg["0"]."  -  ". $affggg["1"]."\n";
+                echo $uiiiii[$affggg["1"]]."\n";
                 //echo "\n";
                 //echo $affggg["0"].":".$uiiiii[$affggg["1"]];
             }
