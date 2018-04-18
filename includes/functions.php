@@ -157,10 +157,7 @@ function premproxyComAjaxParse($text, $re) {
         return($KJIOHIL);
     }
 
-    function cube($n, $delim = ":") {
-        $KJIOHIL = explode($delim, $n);
-        return($KJIOHIL);
-    }
+
 
     // fetch obfuscated js
     $jsSubs = curl('https://premproxy.com/js/cae0c.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
