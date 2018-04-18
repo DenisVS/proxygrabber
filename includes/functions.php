@@ -151,7 +151,7 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 /////////////
 
 function premproxyComAjaxParse($text, $re) {
-    $jsSubs = curl('https://premproxy.com/js/e29f8.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+    $jsSubs = curl('https://premproxy.com/js/cae0c.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
     echo $unpacker->unpack($jsSubs);
 
