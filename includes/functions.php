@@ -168,6 +168,7 @@ function premproxyComAjaxParse($text, $re) {
 
     echo "\n";
     $jsSubs = array_map("cube", $jsSubs); //"').html(",
+    $jsSubs = array_map("cube", $jsSubs, "').html("); //"').html(",
     var_dump($jsSubs);
 
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
