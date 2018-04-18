@@ -114,7 +114,6 @@ function readAllLines($file) {
     return $arrFromFile;
 }
 
-
 ///////////////////////////////////////////////////////////////////
 function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $includeEnd = FALSE) {
     $lenghtStartEntry = mb_strlen($startEntry);
@@ -148,15 +147,18 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 
     return $result;
 }
+
 /////////////
 
 function premproxyComAjaxParse($text, $re) {
     $jsSubs = curl('https://premproxy.com/js/cae0c.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
-    echo $unpacker->unpack($jsSubs);
+    $jsSubs = $unpacker->unpack($jsSubs);
 
 
-//truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $includeEnd = FALSE);
+    $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE);
+    echo $jsSubs;
+
     $result = preg_replace($re, '$2$4', $text);
     //echo "The result of the substitution is ".$result;
     //var_dump($matches);
