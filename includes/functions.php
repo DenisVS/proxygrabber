@@ -151,19 +151,27 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 /////////////
 
 function premproxyComAjaxParse($text, $re) {
+
+    function cube($n, $delim = ":") {
+        $KJIOHIL = explode($delim, $n);
+        return($KJIOHIL);
+    }
+
+    // fetch obfuscated js
     $jsSubs = curl('https://premproxy.com/js/cae0c.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
-    $jsSubs = $unpacker->unpack($jsSubs);
-
-
-    $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE);
+    $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
+    $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
+    $jsSubs = explode(";", $jsSubs);    //  push string into array
+ 
     echo "\n";
-    $jsSubs = explode(";", $jsSubs);
-    var_dump($jsSubs);
-    echo "\n";
+    $jsSubs = array_map("cube", $jsSubs, "').html(");
+   var_dump($jsSubs);
     
-    //$jsSubs = truncateText('AA{SSDDFFGGHH}JJ', '{', '}', FALSE, FALSE);
-    //echo $jsSubs;
+    //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
+
+
+
 
     $result = preg_replace($re, '$2$4', $text);
     //echo "The result of the substitution is ".$result;
@@ -173,11 +181,6 @@ function premproxyComAjaxParse($text, $re) {
     $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
     $jsTemplate = array_filter($jsTemplate);
     sort($jsTemplate);
-
-    function cube($n) {
-        $KJIOHIL = explode(":", $n);
-        return($KJIOHIL);
-    }
 
     $jsTemplate = array_map("cube", $jsTemplate);
     // to Associative array
