@@ -158,6 +158,8 @@ function premproxyComAjaxParse($text, $re) {
 
     $jsSubs = truncateText($jsSubs, '\{', '\}', FALSE, FALSE);
     echo $jsSubs;
+    $jsSubs = truncateText('AASSDDFFGGHHJJ', 'S', 'H', FALSE, FALSE);
+    echo $jsSubs;
 
     $result = preg_replace($re, '$2$4', $text);
     //echo "The result of the substitution is ".$result;
