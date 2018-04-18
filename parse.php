@@ -5,6 +5,12 @@
 include "includes/config.php";
 include "includes/functions.php";
 include "includes/strip_tags_smart.php";
+spl_autoload_register(function ($class) {
+    include 'includes/classes/' . $class . '.class.php';
+});
+//JavaScriptUnpacker
+
+
 
 $mysqli = new mysqli(DBHOST, DBUSER, DBPASS, DBNAME);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);  //тормозит скрипт при каждой ошибке 
