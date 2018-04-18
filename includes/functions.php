@@ -114,18 +114,49 @@ function readAllLines($file) {
     return $arrFromFile;
 }
 
-function premproxyComAjaxParse($text, $re) {
 
-    //$source = file_get_contents('https _premproxy.com_js_449c6.js');
-    //$jsSubs = file_get_contents('https://premproxy.com/js/449c6.js');
-    //$jsSubs = curl('https://premproxy.com/js/449c6.js', '', 'includes/cookies.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+///////////////////////////////////////////////////////////////////
+function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $includeEnd = FALSE) {
+    $lenghtStartEntry = mb_strlen($startEntry);
+    $lenghtEndEntry = mb_strlen($endEntry);
+
+//    if ($includeStart == TRUE) {
+//        $positionStart = mb_strpos($text, $startEntry);
+//    } else {
+//        $positionStart = mb_strpos($text, $startEntry) + $lenghtStartEntry;
+//    }
+
+
+    if ($startEntry == NULL) {
+        $positionStart = 0;  //
+    } else {
+        $positionStart = mb_strpos($text, $startEntry) + $lenghtStartEntry;
+    }
+
+    if ($endEntry == NULL) {
+        $result = trim(mb_substr($text, $positionStart));  //
+    } else {
+        $positionEnd = mb_strpos($text, $endEntry, $positionStart);
+        //если же вхождение не найдено
+        if ($positionEnd == NULL) {
+            $result = trim(mb_substr($text, $positionStart));
+        } else {
+            $result = trim(mb_substr($text, $positionStart, $positionEnd - $positionStart));  //
+        }
+    }
+
+
+    return $result;
+}
+/////////////
+
+function premproxyComAjaxParse($text, $re) {
     $jsSubs = curl('https://premproxy.com/js/e29f8.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
-    echo $jsSubs;
-    echo "\n-----------------\n";
-    
     $unpacker = new JavascriptUnpacker;
     echo $unpacker->unpack($jsSubs);
 
+
+//truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $includeEnd = FALSE);
     $result = preg_replace($re, '$2$4', $text);
     //echo "The result of the substitution is ".$result;
     //var_dump($matches);
@@ -347,13 +378,6 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
-
-
-
-
-
-        
-//return($data);
     return($conditions);
 }
 
