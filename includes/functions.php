@@ -158,8 +158,8 @@ function premproxyComAjaxParse($text, $re) {
     }
 
     function test_alter($text, $key, $delim) {
-        $text = explode($delim, $text);
-        return($text);
+        $aa[$key] = explode($delim, $text);
+        return($aa);
     }
 
     // fetch obfuscated js
