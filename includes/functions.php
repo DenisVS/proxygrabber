@@ -157,17 +157,22 @@ function premproxyComAjaxParse($text, $re) {
         return($KJIOHIL);
     }
 
+    function cube($n, $delim = ":") {
+        $KJIOHIL = explode($delim, $n);
+        return($KJIOHIL);
+    }
+
     // fetch obfuscated js
     $jsSubs = curl('https://premproxy.com/js/cae0c.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
     $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
     $jsSubs = explode(";", $jsSubs);    //  push string into array
- 
+
     echo "\n";
-    $jsSubs = array_map("cube", $jsSubs, "').html(");
-   var_dump($jsSubs);
-    
+    $jsSubs = array_map("cube", "').html(", $jsSubs);
+    var_dump($jsSubs);
+
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
 
 
