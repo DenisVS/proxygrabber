@@ -160,7 +160,7 @@ function premproxyComAjaxParse($text, $re) {
 
 
     // fetch obfuscated js
-    $jsSubs = curl('https://premproxy.com/js/cae0c.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+    $jsSubs = curl('https://premproxy.com/js/d523d.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
     $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
