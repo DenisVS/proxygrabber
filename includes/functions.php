@@ -158,8 +158,8 @@ function premproxyComAjaxParse($text, $re) {
     }
 
     function test_alter($text, $key, $delim) {
-        $aa = explode($delim, $text);
-        var_dump($aa);
+        $aa[] = explode($delim, $text);
+        //var_dump($aa);
         return($aa);
     }
 
