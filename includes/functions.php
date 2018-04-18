@@ -152,12 +152,15 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 
 function premproxyComAjaxParse($text, $re) {
 
-    function cube($n, $delim = ":") {
-        $KJIOHIL = explode($delim, $n);
+    function cube($n) {
+        $KJIOHIL = explode(":", $n);
         return($KJIOHIL);
     }
 
-
+    function test_alter($text, $key, $delim) {
+        $text = explode($delim, $text);
+        return($text);
+    }
 
     // fetch obfuscated js
     $jsSubs = curl('https://premproxy.com/js/d523d.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
@@ -167,8 +170,10 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = explode(";", $jsSubs);    //  push string into array
 
     echo "\n";
-    $jsSubs = array_map("cube", $jsSubs); //"').html(",
-    $jsSubs = array_map("cube", $jsSubs, "').html("); //"').html(",
+    //$jsSubs = array_map("cube", $jsSubs); //"').html(",
+    //$jsSubs = array_map("cube", $jsSubs, "').html("); //"').html(",
+    array_walk($jsSubs, 'test_alter', "').html(");
+
     var_dump($jsSubs);
 
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
