@@ -158,7 +158,7 @@ function premproxyComAjaxParse($text, $re) {
     }
 
     function test_alter($text, $key, $delim) {
-        $aa[] = explode($delim, $text);
+        $aa = explode($delim, $text);
         //var_dump($aa);
         return($aa);
     }
@@ -173,7 +173,7 @@ function premproxyComAjaxParse($text, $re) {
     echo "\n";
     //$jsSubs = array_map("cube", $jsSubs); //"').html(",
     //$jsSubs = array_map("cube", $jsSubs, "').html("); //"').html(",
-    $jsSubs = array_walk($jsSubs, 'test_alter', "').html(");
+    $jsSubs[] = array_walk($jsSubs, 'test_alter', "').html(");
 
     var_dump($jsSubs);
 
