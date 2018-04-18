@@ -156,8 +156,11 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = $unpacker->unpack($jsSubs);
 
 
-    $jsSubs = truncateText($jsSubs, '\{', '\}', FALSE, FALSE);
+    $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE);
+    echo "\n";
     echo $jsSubs;
+    echo "\n";
+    
     $jsSubs = truncateText('AA{SSDDFFGGHH}JJ', '{', '}', FALSE, FALSE);
     echo $jsSubs;
 
