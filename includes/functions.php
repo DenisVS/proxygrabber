@@ -118,7 +118,7 @@ function premproxyComAjaxParse($text, $re) {
 
     //$source = file_get_contents('https _premproxy.com_js_449c6.js');
     //$jsSubs = file_get_contents('https://premproxy.com/js/449c6.js');
-    $jsSubs = curl('https://premproxy.com/js/449c6.js', '', 'includes/cookies.txt', '', 0, 1, randUa($uaList)); //	Fetch URL
+    $jsSubs = curl('https://premproxy.com/js/449c6.js', '', 'includes/cookies.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     echo $jsSubs;
     $unpacker = new JavascriptUnpacker;
     echo $unpacker->unpack($jsSubs);
