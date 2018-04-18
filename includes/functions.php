@@ -114,6 +114,47 @@ function readAllLines($file) {
     return $arrFromFile;
 }
 
+function premproxyComAjaxParse($text, $re) {
+
+    //$source = file_get_contents('https _premproxy.com_js_449c6.js');
+    $jsSubs = file_get_contents('https://premproxy.com/js/449c6.js');
+    echo $jsSubs;
+    $unpacker = new JavascriptUnpacker;
+    echo $unpacker->unpack($jsSubs);
+
+    $result = preg_replace($re, '$2$4', $text);
+    //echo "The result of the substitution is ".$result;
+    //var_dump($matches);
+    $kkk = explode("\n", $result);
+    //var_dump($kkk);
+    $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
+    $jsTemplate = array_filter($jsTemplate);
+    sort($jsTemplate);
+
+    function cube($n) {
+        $KJIOHIL = explode(":", $n);
+        return($KJIOHIL);
+    }
+
+    $jsTemplate = array_map("cube", $jsTemplate);
+    // to Associative array
+    foreach ($jsTemplate as $key => $value) {
+        $uiiiii[trim($value["0"])] = $value["1"];
+    }
+    unset($jsTemplate);
+    $text = "";
+    foreach ($kkk as $key => $value) {
+        $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
+        if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
+            $affggg = cube($value);
+            echo $affggg["0"] . "  -  " . $uiiiii[$affggg["1"]] . "\n";
+            foreach ($affggg as $kE => $vA) {
+                $text = $text . "   " . $affggg["0"] . ":" . $uiiiii[$affggg["1"]];
+            }
+        }
+    }
+}
+
 //Сырой текст в IP:port
 function textToIpList($text) {
     //echo $text;
@@ -121,40 +162,10 @@ function textToIpList($text) {
 
     $re = '/(.*?)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:)(<span class=\")((\D|\d){5})\"(.*)/';
     if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
-       
-        $result = preg_replace($re, '$2$4', $text);
-        //echo "The result of the substitution is ".$result;
-        //var_dump($matches);
-        $kkk = explode("\n", $result);
-        //var_dump($kkk);
-        $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
-        $jsTemplate = array_filter($jsTemplate);
-        sort($jsTemplate);
-
-        function cube($n) {
-            $KJIOHIL = explode(":", $n);
-            return($KJIOHIL);
-        }
-
-        $jsTemplate = array_map("cube", $jsTemplate);
-        // to Associative array
-        foreach ($jsTemplate as $key => $value) {
-            $uiiiii[trim($value["0"])] = $value["1"];
-        }
-        unset($jsTemplate);
-         $text = "";
-        foreach ($kkk as $key => $value) {
-            $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
-            if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
-                $affggg = cube($value);
-                echo $affggg["0"] . "  -  " . $uiiiii[$affggg["1"]] . "\n";
-                foreach ($affggg as $kE => $vA) {
-                    $text = $text . "   " . $affggg["0"] . ":" . $uiiiii[$affggg["1"]];
-                }
-            }
-        }
+        $text = premproxyComAjaxParse($text, $re);
+        echo $text;
     }
-echo $text;
+
     $text = strip_tags_smart($text);
     $proxiesNew = explode("\n", $text); //текст в массив
     for ($i = 0; $i < count($proxiesNew); $i++) { //перебираем, фильтруем IP
@@ -332,6 +343,8 @@ function alignmentConditions($data, $conditions) {
         $conditions['ya_market'] = $data['ya_market']; //если условие = 2 (неважно), приравниваем ко входным данным
     if ($conditions['google_serp'] == 2)
         $conditions['google_serp'] = $data['google_serp']; //если условие = 2 (неважно), приравниваем ко входным данным
+
+
 
 
 
