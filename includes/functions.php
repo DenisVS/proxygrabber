@@ -191,6 +191,7 @@ function premproxyComAjaxParse($text, $re) {
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
         if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
             $affggg = cube($value);
+            echo "value: ".$value."\n";
             echo $affggg["0"] . "  -  " . $jsTemplate[$affggg["1"]] . "\n";
             foreach ($affggg as $kE => $vA) {
                 $text = $text . "   " . $affggg["0"] . ":" . $jsTemplate[$affggg["1"]];
