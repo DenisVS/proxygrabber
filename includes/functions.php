@@ -179,14 +179,14 @@ function premproxyComAjaxParse($text, $re) {
     unset($jsSubs);
     $text = "";
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
-               echo "value: ".$oneHtmlLine."\n";
+               //echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
         if (preg_match_all($re, $oneHtmlLine, $matches, PREG_SET_ORDER, 0)) {
-            $affggg = divisionStringTo2ElementArray($oneHtmlLine);
-            var_dump($affggg);
-            echo $affggg["0"] . "  -  " . $jsTemplate[$affggg["1"]] . "\n";
-            foreach ($affggg as $kE => $vA) {
-                $text = $text . "   " . $affggg["0"] . ":" . $jsTemplate[$affggg["1"]];
+            $ipCipher = divisionStringTo2ElementArray($oneHtmlLine);
+            //var_dump($ipCipher);
+            echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
+            foreach ($ipCipher as $kE => $vA) {
+                $text = $text . "   " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
         }
     }
