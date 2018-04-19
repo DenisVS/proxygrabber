@@ -149,7 +149,9 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 }
 
 /////////////
-
+/*
+ * premproxy.com
+ */
 function premproxyComAjaxParse($text, $re) {
 
     function divisionStringTo2ElementArray($n) {
