@@ -162,9 +162,10 @@ function premproxyComAjaxParse($text, $re) {
         $KJIOHIL = explode("').html(", $n);
         foreach ($KJIOHIL as $key => $value) {
             
-            echo substr($key, 4)."\n";
+            echo "key: ".$key."\n";
+            echo "value: ".$value."\n";
+            
             $aSD[substr($key, 4)] = $value;
-            //$n = substr($n, 4);
         }
         return($aSD);
     }
