@@ -174,6 +174,8 @@ function premproxyComAjaxParse($text, $re) {
     
     foreach ($linesOfHtmlInArray as $value) {
         if(substr_count($value,'<script src="/js/') == 1)    {
+                $value = truncateText($value, '"', '"', FALSE, FALSE); //trim string
+
             echo "SCRIPT ".$value."\n";
         }
                 
