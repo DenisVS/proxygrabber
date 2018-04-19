@@ -180,28 +180,20 @@ function premproxyComAjaxParse($text, $re) {
     //var_dump($matches);
     $kkk = explode("\n", $result);
     //var_dump($kkk);
-    $jsTemplate = readAllLines("includes/premproxy.com.js.txt");
-    $jsTemplate = array_filter($jsTemplate);
-    sort($jsTemplate);
 
-    $jsTemplate = array_map("cube", $jsTemplate);
-    //var_dump($jsTemplate);
-    $jsTemplate = $jsSubs;
-    
     // to Associative array
-    foreach ($jsTemplate as $key => $value) {
-        $uiiiii[trim($value["0"])] = $value["1"];
+    foreach ($jsSubs as $key => $value) {
+        $jsTemplate[trim($value["0"])] = $value["1"];
     }
-    unset($jsTemplate);
-    //$uiiiii = $jsSubs;
+    unset($jsSubs);
     $text = "";
     foreach ($kkk as $key => $value) {
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
         if (preg_match_all($re, $value, $matches, PREG_SET_ORDER, 0)) {
             $affggg = cube($value);
-            echo $affggg["0"] . "  -  " . $uiiiii[$affggg["1"]] . "\n";
+            echo $affggg["0"] . "  -  " . $jsTemplate[$affggg["1"]] . "\n";
             foreach ($affggg as $kE => $vA) {
-                $text = $text . "   " . $affggg["0"] . ":" . $uiiiii[$affggg["1"]];
+                $text = $text . "   " . $affggg["0"] . ":" . $jsTemplate[$affggg["1"]];
             }
         }
     }
