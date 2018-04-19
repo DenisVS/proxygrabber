@@ -168,6 +168,18 @@ function premproxyComAjaxParse($text, $re) {
 
     ////
     //Get js URL
+    //<script src="/js1/jq.js"></script>
+//			<script src="/js/b55ed.js"></script>
+//			<script src="/js1/t.js"></script>
+    
+    foreach ($array as $value) {
+        if(substr_count($value,'<script src="/js/') == 1    {
+            echo "SCRIPT ".$value."\n";
+        }
+                
+        
+    }
+    
     
     
     
@@ -181,16 +193,11 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = explode(";", $jsSubs);    //  push string into array
     echo "\n";
     $jsSubs = array_map('cleanStringAndDivisionTo2ElementArray', $jsSubs);
-
-
-
-
     // to Associative array
     foreach ($jsSubs as $key => $value) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
-
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
         //echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
