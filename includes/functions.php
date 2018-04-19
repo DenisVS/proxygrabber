@@ -174,9 +174,10 @@ function premproxyComAjaxParse($text, $re) {
     
     foreach ($linesOfHtmlInArray as $jsURL) {
         if(substr_count($jsURL,'<script src="/js/') == 1)    {
+            echo "SCRIPT ".$jsURL."\n";
                 $jsURL = 'https://premproxy.com'.truncateText($jsURL, '"', '"', FALSE, FALSE); //trim string
 
-            echo "SCRIPT ".$jsURL."\n";
+            //echo "SCRIPT ".$jsURL."\n";
         }
    
     }
