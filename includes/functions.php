@@ -172,7 +172,7 @@ function premproxyComAjaxParse($text, $re) {
 //			<script src="/js/b55ed.js"></script>
 //			<script src="/js1/t.js"></script>
     
-    foreach ($array as $value) {
+    foreach ($linesOfHtmlInArray as $value) {
         if(substr_count($value,'<script src="/js/') == 1)    {
             echo "SCRIPT ".$value."\n";
         }
