@@ -158,16 +158,10 @@ function premproxyComAjaxParse($text, $re) {
     }
 
     function test_alter($n) {
-         
+         $n = substr($n, 4);
         $KJIOHIL = explode("').html(", $n);
-        foreach ($KJIOHIL as $key => $value) {
-            
-            echo "key: ".$key."\n";
-            echo "value: ".$value."\n";
-            
-            $aSD[substr($key, 4)] = $value;
-        }
-        return($aSD);
+
+        return($KJIOHIL);
     }
 
     // fetch obfuscated js
