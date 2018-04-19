@@ -158,9 +158,15 @@ function premproxyComAjaxParse($text, $re) {
     }
 
     function test_alter($n) {
-        $n = substr($n, 4); 
+         
         $KJIOHIL = explode("').html(", $n);
-        return($KJIOHIL);
+        foreach ($KJIOHIL as $key => $value) {
+            
+            
+            $aSD[substr($key, 4)] = $value;
+            //$n = substr($n, 4);
+        }
+        return($aSD);
     }
 
     // fetch obfuscated js
