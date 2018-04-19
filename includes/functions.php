@@ -185,13 +185,15 @@ function premproxyComAjaxParse($text, $re) {
     sort($jsTemplate);
 
     $jsTemplate = array_map("cube", $jsTemplate);
-    var_dump($jsTemplate);
+    //var_dump($jsTemplate);
+    $jsTemplate = $jsSubs;
+    
     // to Associative array
     foreach ($jsTemplate as $key => $value) {
         $uiiiii[trim($value["0"])] = $value["1"];
     }
     unset($jsTemplate);
-    $uiiiii = $jsSubs;
+    //$uiiiii = $jsSubs;
     $text = "";
     foreach ($kkk as $key => $value) {
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
