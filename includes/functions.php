@@ -160,6 +160,15 @@ function premproxyComAjaxParse($text, $re) {
         $n = explode("').html(", $n);   // create array sciffer - port
         return($n);
     }
+    
+    ////
+    //Get js URL
+    
+    
+    
+    
+    //////
+    
     // fetch obfuscated js
     $jsSubs = curl('https://premproxy.com/js/b55ed.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
@@ -168,15 +177,17 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = explode(";", $jsSubs);    //  push string into array
     echo "\n";
     $jsSubs = array_map('cleanStringAndDivisionTo2ElementArray', $jsSubs);
-     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
     $result = preg_replace($re, '$2$4', $text);
-    //echo "The result of the substitution is ".$result;
-    $linesOfHtmlInArray = explode("\n", $result);
     // to Associative array
     foreach ($jsSubs as $key => $value) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
+    
+    $linesOfHtmlInArray = explode("\n", $result);
+
+
+
     $text = "";
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
                //echo "value: ".$oneHtmlLine."\n";
