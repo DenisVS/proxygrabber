@@ -179,7 +179,8 @@ function premproxyComAjaxParse($text, $re) {
     //echo "The result of the substitution is ".$result;
     //var_dump($matches);
     $kkk = explode("\n", $result);
-    //var_dump($kkk);
+       echo "kkk is ".$result;
+    var_dump($kkk);
 
     // to Associative array
     foreach ($jsSubs as $key => $value) {
@@ -187,11 +188,11 @@ function premproxyComAjaxParse($text, $re) {
     }
     unset($jsSubs);
     $text = "";
-    foreach ($kkk as $key => $raawIpCiffer) {
+    foreach ($kkk as $key => $ipColonCipher) {
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
-        if (preg_match_all($re, $raawIpCiffer, $matches, PREG_SET_ORDER, 0)) {
-            $affggg = cube($raawIpCiffer);
-            echo "value: ".$raawIpCiffer."\n";
+        if (preg_match_all($re, $ipColonCipher, $matches, PREG_SET_ORDER, 0)) {
+            $affggg = cube($ipColonCipher);
+            echo "value: ".$ipColonCipher."\n";
             echo $affggg["0"] . "  -  " . $jsTemplate[$affggg["1"]] . "\n";
             foreach ($affggg as $kE => $vA) {
                 $text = $text . "   " . $affggg["0"] . ":" . $jsTemplate[$affggg["1"]];
