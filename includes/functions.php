@@ -171,7 +171,7 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = explode(";", $jsSubs);    //  push string into array
     echo "\n";
     $jsSubs = array_map('cleanStringAndDivisionTo2ElementArray', $jsSubs);
-    var_dump($jsSubs);
+    
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
 
 
@@ -185,9 +185,10 @@ function premproxyComAjaxParse($text, $re) {
     sort($jsTemplate);
 
     $jsTemplate = array_map("cube", $jsTemplate);
+    var_dump($jsTemplate);
     // to Associative array
     foreach ($jsTemplate as $key => $value) {
-        $NNNNNNNNNNNNNNNNNNNNNuiiiii[trim($value["0"])] = $value["1"];
+        $uiiiii[trim($value["0"])] = $value["1"];
     }
     unset($jsTemplate);
     $uiiiii = $jsSubs;
