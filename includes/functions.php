@@ -182,7 +182,7 @@ function premproxyComAjaxParse($text, $re) {
     //////
     // fetch obfuscated js
     $jsSubs = curl($jsURL, '', '54564gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
-    echo "\n".$jsSubs . "\n"
+    echo "\n".$jsSubs . "\n";
     $unpacker = new JavaScriptUnpacker;
     $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
