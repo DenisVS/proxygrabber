@@ -187,6 +187,7 @@ function premproxyComAjaxParse($text, $re) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
+    $result = '';
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
         //echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
@@ -194,12 +195,14 @@ function premproxyComAjaxParse($text, $re) {
             $ipCipher = divisionStringTo2ElementArray($oneHtmlLine);
             //var_dump($ipCipher);
             //echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
-            //$result = '';
+
             foreach ($ipCipher as $kE => $vA) {
                 $result = $result . " \n  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
         }
     }
+    $result = array_unique($result); //уникализируем значения
+    sort($result); //сортируем массив
     return($result);
 }
 
