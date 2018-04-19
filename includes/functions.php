@@ -158,6 +158,7 @@ function premproxyComAjaxParse($text, $re) {
     }
 
     function test_alter($n) {
+        $n = substr($n, 4); 
         $KJIOHIL = explode("').html(", $n);
         return($KJIOHIL);
     }
