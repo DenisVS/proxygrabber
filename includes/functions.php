@@ -157,10 +157,9 @@ function premproxyComAjaxParse($text, $re) {
         return($KJIOHIL);
     }
 
-    function test_alter($n) {
-         $n = substr($n, 4, -1);
-        $n = explode("').html(", $n);
-
+    function cleanStringAndDivisionTo2ElementArray($n) {
+        $n = substr($n, 4, -1); // cut (trim) string 
+        $n = explode("').html(", $n);   // create array sciffer - port
         return($n);
     }
 
@@ -176,8 +175,6 @@ function premproxyComAjaxParse($text, $re) {
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
 
 
-
-
     $result = preg_replace($re, '$2$4', $text);
     //echo "The result of the substitution is ".$result;
     //var_dump($matches);
@@ -190,9 +187,10 @@ function premproxyComAjaxParse($text, $re) {
     $jsTemplate = array_map("cube", $jsTemplate);
     // to Associative array
     foreach ($jsTemplate as $key => $value) {
-        $uiiiii[trim($value["0"])] = $value["1"];
+        $NNNNNNNNNNNNNNNNNNNNNuiiiii[trim($value["0"])] = $value["1"];
     }
     unset($jsTemplate);
+    $uiiiii = $jsSubs;
     $text = "";
     foreach ($kkk as $key => $value) {
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
