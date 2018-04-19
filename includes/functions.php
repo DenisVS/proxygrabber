@@ -180,12 +180,9 @@ function premproxyComAjaxParse($text, $re) {
     }
             echo "SCRIPT " . $jsURL . "\n";
 
-    ////// SCRIPT https://premproxy.com/js/95e31.js
     // fetch obfuscated js
     //$jsSubs = curl('https://premproxy.com/js/95e31.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $jsSubs = curl($jsURL, '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
-    //$jsSubs = curl($jsURL, '', '54564gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
-    echo "\n" . $jsSubs . "\n";
     $unpacker = new JavaScriptUnpacker;
     $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
@@ -204,6 +201,7 @@ function premproxyComAjaxParse($text, $re) {
             $ipCipher = divisionStringTo2ElementArray($oneHtmlLine);
             //var_dump($ipCipher);
             //echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
+            $result;
             foreach ($ipCipher as $kE => $vA) {
                 $result = $result . " \n  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
