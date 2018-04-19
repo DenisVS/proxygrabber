@@ -170,7 +170,7 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
     $jsSubs = explode(";", $jsSubs);    //  push string into array
     echo "\n";
-    $jsSubs = array_map('test_alter', $jsSubs);
+    $jsSubs = array_map('cleanStringAndDivisionTo2ElementArray', $jsSubs);
     var_dump($jsSubs);
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
 
