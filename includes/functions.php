@@ -186,7 +186,7 @@ function premproxyComAjaxParse($text, $re) {
             //var_dump($ipCipher);
             //echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
             foreach ($ipCipher as $kE => $vA) {
-                $text = $text . "   " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
+                $text = $text . "  -  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
         }
     }
