@@ -190,6 +190,7 @@ function premproxyComAjaxParse($text, $re) {
             }
         }
     }
+    return($text);
 }
 
 //Сырой текст в IP:port
