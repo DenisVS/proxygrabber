@@ -209,9 +209,8 @@ function premproxyComAjaxParse($text, $re) {
 
 //Сырой текст в IP:port
 function textToIpList($text) {
-    //echo $text;
 
-
+    // If premproxy.com
     $re = '/(.*?)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:)(<span class=\")((\D|\d){5})\"(.*)/';
     if (preg_match_all($re, $text, $matches, PREG_SET_ORDER, 0)) {
         $text = premproxyComAjaxParse($text, $re);
