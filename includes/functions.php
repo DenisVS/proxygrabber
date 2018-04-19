@@ -177,16 +177,24 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = explode(";", $jsSubs);    //  push string into array
     echo "\n";
     $jsSubs = array_map('cleanStringAndDivisionTo2ElementArray', $jsSubs);
-    $result = preg_replace($re, '$2$4', $text);
+    $text = preg_replace($re, '$2$4', $text);
+    $linesOfHtmlInArray = explode("\n", $text);
+
+    
+    
     // to Associative array
     foreach ($jsSubs as $key => $value) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
     
-    $linesOfHtmlInArray = explode("\n", $result);
 
 
+    
+    
+    
+    
+    
 
     $text = "";
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
