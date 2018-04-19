@@ -151,19 +151,23 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 /////////////
 
 function premproxyComAjaxParse($text, $re) {
+
     function divisionStringTo2ElementArray($n) {
         $n = explode(":", $n);
         return($n);
     }
+
     function cleanStringAndDivisionTo2ElementArray($n) {
         $n = substr($n, 4, -1); // cut (trim) string 
         $n = explode("').html(", $n);   // create array sciffer - port
         return($n);
     }
-    
+
+    $text = preg_replace($re, '$2$4', $text);
+    $linesOfHtmlInArray = explode("\n", $text);
+
     ////
     //Get js URL
-    
     
     
     
@@ -177,28 +181,27 @@ function premproxyComAjaxParse($text, $re) {
     $jsSubs = explode(";", $jsSubs);    //  push string into array
     echo "\n";
     $jsSubs = array_map('cleanStringAndDivisionTo2ElementArray', $jsSubs);
-    $text = preg_replace($re, '$2$4', $text);
-    $linesOfHtmlInArray = explode("\n", $text);
 
-    
-    
+
+
+
     // to Associative array
     foreach ($jsSubs as $key => $value) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
-    
 
 
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     $text = "";
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
-               //echo "value: ".$oneHtmlLine."\n";
+        //echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
         if (preg_match_all($re, $oneHtmlLine, $matches, PREG_SET_ORDER, 0)) {
             $ipCipher = divisionStringTo2ElementArray($oneHtmlLine);
