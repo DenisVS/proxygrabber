@@ -181,7 +181,8 @@ function premproxyComAjaxParse($text, $re) {
 
     //////
     // fetch obfuscated js
-    $jsSubs = curl('https://premproxy.com/js/95e31.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+    //$jsSubs = curl('https://premproxy.com/js/95e31.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+    $jsSubs = curl($jsURL, '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     //$jsSubs = curl($jsURL, '', '54564gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     echo "\n" . $jsSubs . "\n";
     $unpacker = new JavaScriptUnpacker;
