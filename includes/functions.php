@@ -175,11 +175,11 @@ function premproxyComAjaxParse($text, $re) {
     foreach ($linesOfHtmlInArray as $jsURL) {
         if (substr_count($jsURL, '<script src="/js/') == 1) {
             $jsURL = 'https://premproxy.com' . truncateText($jsURL, '"', '"', FALSE, FALSE); //trim string
-            echo "SCRIPT " . $jsURL . "\n";
         }
     }
+            echo "SCRIPT " . $jsURL . "\n";
 
-    //////
+    ////// SCRIPT https://premproxy.com/js/95e31.js
     // fetch obfuscated js
     //$jsSubs = curl('https://premproxy.com/js/95e31.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $jsSubs = curl($jsURL, '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
