@@ -151,11 +151,10 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 /////////////
 
 function premproxyComAjaxParse($text, $re) {
-    function cube($n) {
-        $KJIOHIL = explode(":", $n);
-        return($KJIOHIL);
+    function divisionStringTo2ElementArray($n) {
+        $n = explode(":", $n);
+        return($n);
     }
-
     function cleanStringAndDivisionTo2ElementArray($n) {
         $n = substr($n, 4, -1); // cut (trim) string 
         $n = explode("').html(", $n);   // create array sciffer - port
@@ -179,12 +178,12 @@ function premproxyComAjaxParse($text, $re) {
     }
     unset($jsSubs);
     $text = "";
-    foreach ($linesOfHtmlInArray as $key => $ipColonCipher) {
-               echo "value: ".$ipColonCipher."\n";
+    foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
+               echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
-        if (preg_match_all($re, $ipColonCipher, $matches, PREG_SET_ORDER, 0)) {
-            $affggg = cube($ipColonCipher);
-
+        if (preg_match_all($re, $oneHtmlLine, $matches, PREG_SET_ORDER, 0)) {
+            $affggg = divisionStringTo2ElementArray($oneHtmlLine);
+            var_dump($affggg);
             echo $affggg["0"] . "  -  " . $jsTemplate[$affggg["1"]] . "\n";
             foreach ($affggg as $kE => $vA) {
                 $text = $text . "   " . $affggg["0"] . ":" . $jsTemplate[$affggg["1"]];
