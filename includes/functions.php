@@ -172,11 +172,11 @@ function premproxyComAjaxParse($text, $re) {
 //			<script src="/js/b55ed.js"></script>
 //			<script src="/js1/t.js"></script>
     
-    foreach ($linesOfHtmlInArray as $value) {
-        if(substr_count($value,'<script src="/js/') == 1)    {
-                $value = truncateText($value, '"', '"', FALSE, FALSE); //trim string
+    foreach ($linesOfHtmlInArray as $jsURL) {
+        if(substr_count($jsURL,'<script src="/js/') == 1)    {
+                $jsURL = 'https://premproxy.com'.truncateText($jsURL, '"', '"', FALSE, FALSE); //trim string
 
-            echo "SCRIPT ".$value."\n";
+            echo "SCRIPT ".$jsURL."\n";
         }
                 
         
@@ -188,7 +188,7 @@ function premproxyComAjaxParse($text, $re) {
     //////
     
     // fetch obfuscated js
-    $jsSubs = curl('https://premproxy.com/js/b55ed.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+    $jsSubs = curl($jsURL, '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
     $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
