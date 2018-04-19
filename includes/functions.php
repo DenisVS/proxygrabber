@@ -157,27 +157,20 @@ function premproxyComAjaxParse($text, $re) {
         return($KJIOHIL);
     }
 
-    function test_alter($text, $key, $delim) {
-        $text = explode($delim, $text);
-        var_dump($text);
-        return($text);
+    function test_alter($n) {
+        $KJIOHIL = explode("').html(", $n);
+        return($KJIOHIL);
     }
 
     // fetch obfuscated js
-    $jsSubs = curl('https://premproxy.com/js/d523d.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
+    $jsSubs = curl('https://premproxy.com/js/2eea7.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
     $unpacker = new JavaScriptUnpacker;
     $jsSubs = $unpacker->unpack($jsSubs); // deobfuscate js
     $jsSubs = truncateText($jsSubs, '{', '}', FALSE, FALSE); //trim string
     $jsSubs = explode(";", $jsSubs);    //  push string into array
-
     echo "\n";
-    //$jsSubs = array_map("cube", $jsSubs); //"').html(",
-    //$jsSubs = array_map("cube", $jsSubs, "').html("); //"').html(",
-    $jsSubs = array_walk($jsSubs, 'test_alter', "').html(");
-    //array_walk($jsSubs, 'test_alter', "').html(");
-
+    $jsSubs = array_map('test_alter', $jsSubs);
     var_dump($jsSubs);
-
     //$result = str_replace('de', '88', 'bcdefg'); //вернёт bc88fg
 
 
