@@ -165,20 +165,13 @@ function premproxyComAjaxParse($text, $re) {
 
     $text = preg_replace($re, '$2$4', $text);
     $linesOfHtmlInArray = explode("\n", $text);
-
-    ////
-    //Get js URL
-    //<script src="/js1/jq.js"></script>
-//			<script src="/js/b55ed.js"></script>
-//			<script src="/js1/t.js"></script>
-
     foreach ($linesOfHtmlInArray as $jsURL) {
-        if (substr_count($jsURL, '<script src="/js/') == 1) {
+        if (substr_count($jsURL, '<script src="/js/') == 1 && substr_count($jsURL, '"></script>') == 1) {
             $jsURL = 'https://premproxy.com' . truncateText($jsURL, '"', '"', FALSE, FALSE); //trim string
             break;
         }
     }
-            echo "SCRIPT " . $jsURL . "\n";
+    echo "js url: " . $jsURL . "\n";
 
     // fetch obfuscated js
     //$jsSubs = curl('https://premproxy.com/js/95e31.js', '', 'gfgf.txt', '', 0, 1, randUa("includes/ua.txt")); //	Fetch URL
@@ -201,7 +194,7 @@ function premproxyComAjaxParse($text, $re) {
             $ipCipher = divisionStringTo2ElementArray($oneHtmlLine);
             //var_dump($ipCipher);
             //echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
-            $result='';
+            $result = '';
             foreach ($ipCipher as $kE => $vA) {
                 $result = $result . " \n  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
