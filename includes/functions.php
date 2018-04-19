@@ -187,6 +187,8 @@ function premproxyComAjaxParse($text, $re) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
+    //$result = array_unique($result); //уникализируем значения
+    //sort($result); //сортируем массив
     $result = '';
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
         //echo "value: ".$oneHtmlLine."\n";
@@ -201,8 +203,7 @@ function premproxyComAjaxParse($text, $re) {
             }
         }
     }
-    $result = array_unique($result); //уникализируем значения
-    sort($result); //сортируем массив
+
     return($result);
 }
 
