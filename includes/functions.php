@@ -191,15 +191,6 @@ function premproxyComAjaxParse($text, $re) {
     }
     unset($jsSubs);
 
-
-
-
-
-
-
-
-
-    $text = "";
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
         //echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
@@ -208,11 +199,11 @@ function premproxyComAjaxParse($text, $re) {
             //var_dump($ipCipher);
             //echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
             foreach ($ipCipher as $kE => $vA) {
-                $text = $text . " \n  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
+                $result = $result . " \n  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
         }
     }
-    return($text);
+    return($result);
 }
 
 //Сырой текст в IP:port
