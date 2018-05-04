@@ -29,7 +29,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 //выбираем имеющиеся рабочие ok, с самых старых по дате проверки>0, покуда их > $testSize/20
 do {
     $proxiesToCheck = array();
-    $resultLongChecked = $mysqli->query("SELECT `proxy_ip` FROM `ip_list_ok` WHERE ((`checked` - `worked`) < (('" . time() . "' - `checked`)*" . $kTime . ")) OR (('" . time() . "' - `checked`) > '" . $maxTimeNoCheckOk . "' ) ORDER BY `checked` ASC LIMIT " . $testSize);
+    $resultLongChecked = $mysqli->query("SELECT `proxy_ip` FROM `ip_list_ok` WHERE ((`checked` - `worked` + ". $minTimeCheck .") < (('" . time() . "' - `checked`)*" . $kTime . ")) OR (('" . time() . "' - `checked`) > '" . $maxTimeNoCheckOk . "' ) ORDER BY `checked` ASC LIMIT " . $testSize);
     //var_dump($resultLongChecked);
     $countIp = $resultLongChecked->num_rows; // How many rows with limited ok?
     if ($countIp == 0) {
