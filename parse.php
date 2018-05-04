@@ -38,7 +38,7 @@ if (($amountNewIp < $minimumNew) && ($amountAnmIp < $minimumOk)) { //если м
     $row = $result->fetch_assoc(); // Get URL from array
     $mysqli->query("UPDATE settings SET value='" . $row['id'] . "' WHERE `param` = 'site_num';");
     echo 'Fetched site index number in table $rowNumSite["value"]:  ' . $row['id'] . "\n";
-$row['site_url'] = 'https://premproxy.com/list/time-01.htm';
+//$row['site_url'] = 'https://premproxy.com/list/time-01.htm';
     $newProxies = array();
     //$text = curl ($row['site_url'],'','includes/cookies.txt','',0, 0, randUa($uaList));	//	Fetch URL
     $text = curl($row['site_url'], '', 'includes/cookies.txt', '', 0, 1, randUa($uaList)); //	Fetch URL

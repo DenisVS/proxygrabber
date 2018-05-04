@@ -189,17 +189,11 @@ function premproxyComAjaxParse($text, $re) {
         $jsTemplate[trim($value["0"])] = $value["1"];
     }
     unset($jsSubs);
-    //$result = array_unique($result); //уникализируем значения
-    //sort($result); //сортируем массив
     $result = '';
     foreach ($linesOfHtmlInArray as $key => $oneHtmlLine) {
-        //echo "value: ".$oneHtmlLine."\n";
         $re = '/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:(\D|\d){5}/';
         if (preg_match_all($re, $oneHtmlLine, $matches, PREG_SET_ORDER, 0)) {
             $ipCipher = divisionStringTo2ElementArray($oneHtmlLine);
-            //var_dump($ipCipher);
-            //echo $ipCipher["0"] . "  -  " . $jsTemplate[$ipCipher["1"]] . "\n";
-
             foreach ($ipCipher as $kE => $vA) {
                 $result = $result . " \n  " . $ipCipher["0"] . ":" . $jsTemplate[$ipCipher["1"]];
             }
@@ -296,19 +290,15 @@ function cellFromAnother3DArray($from, $to, $cell, $template) {
     return($to);
 }
 
-//function curlMultyProxyTest($link, $proxiesToCheck = false, $myIp = '', $directLink, $timeout = 20, $uaList)
 function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink, $timeout = 20, $ua) {
     unset($person);
     $person = new CurlMulti();
 
 //----------------- Checking my control script on host
     $resultFrom_multiCurl = $person->multyProxyBulkConnect($testScriptUrl, $checkingProxy, $timeout, 'Mozilla Firefox 52.1 / Windows NT6.3');
-    // var_dump($person); 
-    //var_dump($resultFrom_multiCurl); 
     $resultFrom_multiCurl = $person->parseRequestLineByLine($resultFrom_multiCurl, '[REMOTE_ADDR]', 'content', 'remote_addr', 'content,proxy_ip', true);
     $resultFrom_multiCurl = $person->parseRequestLineByLine($resultFrom_multiCurl, '[HTTP_X_FORWARDED_FOR]', 'content', 'x_forwarded_for', 'content,proxy_ip,remote_addr', true);
     $resultFrom_multiCurl = $person->parseRequestLineByLine($resultFrom_multiCurl, 'test_query', 'content', 'test_query', 'x_forwarded_for,content,proxy_ip,remote_addr', true);
-//var_dump($resultFrom_multiCurl);
     foreach ($resultFrom_multiCurl as $currentProxyKey => $currentProxyVal) {
         // Is the proxy alive?
         if (isset($currentProxyVal['remote_addr'])) {
@@ -339,7 +329,6 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
 // We arrange new array of active proxy with new keys
 // form "small cycle"
     echo "We are here! \n";
-    //var_dump($checkingProxy);
     foreach ($checkingProxy as $currentProxyKey => $currentProxyVal) {
         if (isset($currentProxyVal['anm']) && $currentProxyVal['anm'] == 1 && isset($currentProxyVal['query']) && $currentProxyVal['query'] == 1) {
             $proxiesToCheckElit[]['proxy_ip'] = $checkingProxy[$currentProxyKey]['proxy_ip'];
@@ -349,24 +338,19 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
 
     if (isset($controlKey) && isset($proxiesToCheckElit)) {
         $controlKey = array_flip($controlKey); //Flip array. Now it looks like 4 => 1, 5 => 2, 8 => 3  This is template to insert new fields
-//var_dump($proxiesToCheckElit);
 //----------------- Checking ya_market
         $resultFrom_multiCurl = $person->multyProxyBulkConnect($yaMarketLink, $proxiesToCheckElit, $timeout, 'Mozilla Firefox 52.1 / Windows NT6.3', 1);
 // Determin if the ya_market is available
         $resultFrom_multiCurl = $person->parseRequestLineByLine($resultFrom_multiCurl, '<meta property="og:title"', 'content', 'ya_market', 'proxy_ip,anm,query,time', true);
-
         $resultFrom_multiCurl = fieldToBoolean3D($resultFrom_multiCurl, 'ya_market');   // Now if the field "ya_market" consists entry, it will as 1, else 0.
-//var_dump($resultFrom_multiCurl);
-
         $checkingProxy = cellFromAnother3DArray($resultFrom_multiCurl, $checkingProxy, 'ya_market', $controlKey);   // Now we reinstate sequences of keys and implement the new "ya_market" data to the array wich consists ip.
 // The current fields are "ya_market,proxy_ip,anm,query,time"
-// 
+ 
 //----------------- Checking google_serp
         $resultFrom_multiCurl = $person->multyProxyBulkConnect('https://google.com', $proxiesToCheckElit, $timeout, 'Mozilla Firefox 52.1 / Windows NT6.3', 1);
 // Determin if the google_serp is available
         $resultFrom_multiCurl = $person->parseRequestLineByLine($resultFrom_multiCurl, 'rel="shortcut icon"><title>Google</title><script nonce=', 'content', 'google_serp', 'ya_market,proxy_ip,anm,query,time', true);
         $resultFrom_multiCurl = fieldToBoolean3D($resultFrom_multiCurl, 'google_serp');   // Now if the field "google_serp" consists entry, it will as 1, else 0.
-//var_dump($resultFrom_multiCurl);
         $checkingProxy = cellFromAnother3DArray($resultFrom_multiCurl, $checkingProxy, 'google_serp', $controlKey); // Now we reinstate sequences of keys and implement the new "google_serp" data to the array wich consists ip.
 // The current fields are "google_serp,ya_market,proxy_ip,anm,query,time"
     }
@@ -408,9 +392,6 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
         $cond = alignmentConditions($proxiesFromCheck[$i], $conditions);
-        var_dump($cond);
-        var_dump($conditions);
-        var_dump($proxiesFromCheck[$i]);
         echo "CASE: " . $whatsCheck . "\n";
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
 
@@ -467,8 +448,7 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                 echo '7 UPDATE ip_list_time ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                 $mysqli->query("UPDATE `ip_list_time` SET `checked` = '" . time() . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';\r");
             }
-            //if ($whatsCheck == ) {
-            //}
+
         }
     }
 }

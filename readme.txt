@@ -1,2 +1,6 @@
-*/10    *     *       *       *       cd /usr/home/webuser1/www/_proxygrabber &&  /usr/local/bin/php  /usr/home/webuser1/www/_proxygrabber/parse.php  > /dev/null 2>&1
-*/7    *     *       *       *       cd /usr/home/webuser1/www/_proxygrabber &&  /usr/local/bin/php  /usr/home/webuser1/www/_proxygrabber/check.php  > /dev/null 2>&1
+
+/var/cron/tabs/www
+
+*/7    *     *       *       *       cd /data/sites_php71/scripts/proxygrabber &&  /usr/local/bin/php  /data/sites_php71/scripts/proxygrabber/check.php  > /dev/null 2>&1
+*/10    *     *       *       *       cd /data/sites_php71/scripts/proxygrabber &&  /usr/local/bin/php  /data/sites_php71/scripts/proxygrabber/parse.php  > /dev/null 2>&1
+
