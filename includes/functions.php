@@ -40,7 +40,8 @@ function curl($link, $postfields = '', $cookie = '', $refer = '', $header = 1, $
 
     if (empty($page)) {
         echo "<br/>Could not connect to host: <br/> $link <br/>";
-    } else {
+    }
+    else {
         return $page;
     }
 }
@@ -128,23 +129,24 @@ function truncateText($text, $startEntry, $endEntry, $includeStart = FALSE, $inc
 
     if ($startEntry == NULL) {
         $positionStart = 0;  //
-    } else {
+    }
+    else {
         $positionStart = mb_strpos($text, $startEntry) + $lenghtStartEntry;
     }
 
     if ($endEntry == NULL) {
         $result = trim(mb_substr($text, $positionStart));  //
-    } else {
+    }
+    else {
         $positionEnd = mb_strpos($text, $endEntry, $positionStart);
         //если же вхождение не найдено
         if ($positionEnd == NULL) {
             $result = trim(mb_substr($text, $positionStart));
-        } else {
+        }
+        else {
             $result = trim(mb_substr($text, $positionStart, $positionEnd - $positionStart));  //
         }
     }
-
-
     return $result;
 }
 
@@ -220,7 +222,8 @@ function textToIpList($text) {
 
         if (preg_match('/\b((([-.a-z0-9]*)\.(\w{2,5}))|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])):(\d{2,5})\b/', $proxiesNew[$i])) {
             $proxiesNew[$i] = preg_replace('/(.*?)(\b((([-.a-z0-9]*)\.(\w{2,5}))|(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])):(\d{2,5})\b)(.*)/', '$2', $proxiesNew[$i]);
-        } else {
+        }
+        else {
             $proxiesNew[$i] = false; //убиваем мусорные строки-элементы массива
         }
     }
@@ -268,7 +271,8 @@ function fieldToBoolean3D($in, $cell) {
     foreach ($in as $key => $currentProxyVal) {
         if (isset($in[$key][$cell])) {
             $in[$key][$cell] = 1;
-        } else {
+        }
+        else {
             $in[$key][$cell] = 0;
         }
     }
@@ -305,17 +309,20 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
             $checkingProxy[$currentProxyKey]['time'] = '0';  //Alive  
             if (isset($currentProxyVal['x_forwarded_for']) && strpos($currentProxyVal['x_forwarded_for'], $myIp) > 1) { //Проверка на анонимность если в строке мой IP 
                 $checkingProxy[$currentProxyKey]['anm'] = '0';  // "Неанонимный!
-            } else {
+            }
+            else {
                 $checkingProxy[$currentProxyKey]['anm'] = '1';  // "Анонимный!	
             }
             if (isset($currentProxyVal['test_query']) && strpos($currentProxyVal['test_query'], 'test_query') > 1) { //Проверка на QUERY если в строке  
                 $checkingProxy[$currentProxyKey]['query'] = '1';
                 echo $checkingProxy[$currentProxyKey]['proxy_ip'] . " query проходит\n";
-            } else {
+            }
+            else {
                 echo $checkingProxy[$currentProxyKey]['proxy_ip'] . " query не проходит\n";
                 $checkingProxy[$currentProxyKey]['query'] = '0';
             }
-        } else {
+        }
+        else {
             $checkingProxy[$currentProxyKey]['time'] = '1';
             echo $checkingProxy[$currentProxyKey]['proxy_ip'] . " Timeout\n";
         }
@@ -345,7 +352,6 @@ function curlMultyProxyTest($testScriptUrl, $checkingProxy, $myIp, $yaMarketLink
         $resultFrom_multiCurl = fieldToBoolean3D($resultFrom_multiCurl, 'ya_market');   // Now if the field "ya_market" consists entry, it will as 1, else 0.
         $checkingProxy = cellFromAnother3DArray($resultFrom_multiCurl, $checkingProxy, 'ya_market', $controlKey);   // Now we reinstate sequences of keys and implement the new "ya_market" data to the array wich consists ip.
 // The current fields are "ya_market,proxy_ip,anm,query,time"
- 
 //----------------- Checking google_serp
         $resultFrom_multiCurl = $person->multyProxyBulkConnect('https://google.com', $proxiesToCheckElit, $timeout, 'Mozilla Firefox 52.1 / Windows NT6.3', 1);
 // Determin if the google_serp is available
@@ -370,6 +376,19 @@ function fillEmptyCells($data) {
     return($data);
 }
 
+///////////////
+//очистка многомерного массива от дубликатов
+function array_multidim_unique($myArray) {
+    $index['0'] = NULL;
+    foreach ($myArray as $key => $value) {
+        if (!array_key_exists($value["proxy_ip"], $index)) {
+            $myArray2[] = $value;
+        }
+        $index[$value["proxy_ip"]] = $key;
+    }
+    return($myArray2);
+}
+
 // Filling empty cells by zero values
 function alignmentConditions($data, $conditions) {
     if ($conditions['anm'] == 2)
@@ -387,13 +406,25 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
     while ($row = $sample->fetch_assoc()) {
         $proxiesToCheck[]['proxy_ip'] = $row['proxy_ip']; //заносим результат в массив для проверки
     }
+
+
+
+    //echo "\n--------------------\n";
+    //var_dump($proxiesToCheck);
+    $proxiesToCheck = array_multidim_unique($proxiesToCheck);
+    //var_dump($proxiesToCheck);
+    //echo "\n--------------------\n";
+    //$proxiesToCheck;
+
     $proxiesFromCheck = curlMultyProxyTest($testUrl, $proxiesToCheck, $myIp, $yaMarketLink, $timeout, $uaList); //тестируем
     //thorowg whole proxy list
     for ($i = 0; $i < count($proxiesFromCheck); $i++) {
         $proxiesFromCheck[$i] = fillEmptyCells($proxiesFromCheck[$i]);
         $cond = alignmentConditions($proxiesFromCheck[$i], $conditions);
         echo "CASE: " . $whatsCheck . "\n";
+        // check condition for OK list
         if (($proxiesFromCheck[$i]['time'] == 0) && ($proxiesFromCheck[$i]['anm'] == $cond['anm']) && ($proxiesFromCheck[$i]['query'] == $cond['query']) && ($proxiesFromCheck[$i]['ya_market'] == $cond['ya_market']) && ($proxiesFromCheck[$i]['google_serp'] == $cond['google_serp'])) {
+            //10 OK  20 NEW   30 time
 
             if ($whatsCheck == 10) {
                 echo '1 UPDATE ip_list_ok ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
@@ -413,10 +444,10 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                 $mysqli->query("DELETE FROM `ip_list_time` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
             }
         }
-        // check condition for not OK list
+        // check condition for not SUBSTANDARD list
         if (($proxiesFromCheck[$i]['time'] == 0) && (($proxiesFromCheck[$i]['anm'] != $cond['anm']) || ($proxiesFromCheck[$i]['ya_market'] != $cond['ya_market']) || ($proxiesFromCheck[$i]['query'] != $cond['query']) || ($proxiesFromCheck[$i]['google_serp'] != $cond['google_serp']))) {
+            //10 OK  20 NEW   30 time
 
-            //10  //OK         //20': //NEW
             if ($whatsCheck == 10 OR $whatsCheck == 20 OR $whatsCheck == 30) {
                 echo '3 INSERT INTO ip_list_substandard ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                 $mysqli->query("INSERT INTO `ip_list_substandard` (`proxy_ip`, `checked`, `worked`, `status`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "', '" . $proxiesFromCheck[$i]['anm'] . $proxiesFromCheck[$i]['query'] . $proxiesFromCheck[$i]['ya_market'] . $proxiesFromCheck[$i]['google_serp'] . "' )"); //заносим в ip_list_substandard
@@ -432,8 +463,9 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                 $mysqli->query("DELETE FROM `ip_list_time` WHERE `proxy_ip` = '" . $proxiesFromCheck[$i]['proxy_ip'] . "';");
             }
         }
-        // check condition for dead list
+        // check condition for time list
         if ($proxiesFromCheck[$i]['time'] == 1) { //проверяем условие недоступности
+            //10 OK  20 NEW   30 time
             if ($whatsCheck == 10) {
                 echo '5 INSERT INTO ip_list_time ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                 $mysqli->query("INSERT INTO `ip_list_time` (`proxy_ip`, `checked`, `not_worked`) VALUES ('" . $proxiesFromCheck[$i]['proxy_ip'] . "', '" . time() . "', '" . time() . "')"); //заносим в ip_list_bad
@@ -448,7 +480,6 @@ function testAndDBWrite($sample, $testUrl, $myIp, $yaMarketLink, $timeout, $uaLi
                 echo '7 UPDATE ip_list_time ' . $proxiesFromCheck[$i]['proxy_ip'] . "\n";
                 $mysqli->query("UPDATE `ip_list_time` SET `checked` = '" . time() . "' WHERE proxy_ip='" . $proxiesFromCheck[$i]['proxy_ip'] . "';\r");
             }
-
         }
     }
 }

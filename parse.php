@@ -19,7 +19,7 @@ $resultNewIp = $mysqli->query("SELECT * FROM ip_list_new;");
 $amountNewIp = $resultNewIp->num_rows; //сколько строк со свежатиной?
 //var_dump($amountNewIp);
 $resultAnmIp = $mysqli->query("SELECT * FROM ip_list_ok;");
-$amountAnmIp = $resultAnmIp->num_rows; // How many rows in anonimous table?
+$amountAnmIp = $resultAnmIp->num_rows; // How many rows in ok table?
 //var_dump($amountAnmIp);
 
 if (($amountNewIp < $minimumNew) && ($amountAnmIp < $minimumOk)) { //если мало, парсим
@@ -73,7 +73,7 @@ if (($amountNewIp < $minimumNew) && ($amountAnmIp < $minimumOk)) { //если м
         $resultCount = $mysqli->query("SELECT * FROM ip_list_never WHERE proxy_ip ='" . $newProxies[$i] . "'");
         $countIp = $resultCount->num_rows; //сколько строк с таким IP  в ip_list_never? 
         $countIpAll = ($countIpAll + $countIp);
-        //echo count($newProxies)." - ".$i." Количество имеющихся с IP ".$newProxies[$i].": ".$countIpAll."\n";
+        echo count($newProxies)." - ".$i." Количество имеющихся с IP ".$newProxies[$i].": ".$countIpAll."\n";
         if ($countIpAll == 0) { //если нету
             $resultCount = $mysqli->query("INSERT INTO ip_list_new (proxy_ip) VALUES ( '$newProxies[$i]')"); //заносим
             $plusIp = $plusIp + 1; //счётчик добавленных
